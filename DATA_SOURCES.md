@@ -16,17 +16,42 @@ This document describes all data sources used across projects in this repository
 **Tables Used:**
 | Table | Description | Projects |
 |-------|-------------|----------|
-| B01003 | Total Population | food-desert-myth |
-| B17001 | Poverty Status | food-desert-myth |
+| B01003 | Total Population | food-desert-myth, mobility-deserts |
+| B17001 | Poverty Status | food-desert-myth, mobility-deserts, working-poor |
 | B22003 | SNAP/Food Stamps Receipt | food-desert-myth, ebt-verification |
-| B19013 | Median Household Income | food-desert-myth |
-| B25003 | Housing Tenure (Owner/Renter) | food-desert-myth |
+| B19013 | Median Household Income | food-desert-myth, working-poor |
+| B23025 | Employment Status | working-poor |
+| B23027 | Weeks Worked (Full-time) | working-poor |
+| B25003 | Housing Tenure (Owner/Renter) | food-desert-myth, mobility-deserts |
+| B25044 | Vehicles Available | mobility-deserts |
+| B25070 | Rent as % of Income | working-poor |
 
-**Geography:** Census tracts in California (FIPS: 06), Santa Clara County (FIPS: 085)
+**Geography:** Census tracts in California (FIPS: 06), Santa Clara County (085), Bay Area (001, 013, 041, 055, 075, 081, 085, 095, 097)
 
 **Years:** 2019-2023 ACS 5-year estimates (released 2024)
 
 **Terms of Use:** Public domain. No restrictions on use.
+
+---
+
+## Cal-ITP Transit Data (GTFS)
+
+**What:** Transit stop locations from California's integrated GTFS data pipeline
+
+**Access:**
+- Portal: https://data.ca.gov
+- Search for "Cal-ITP GTFS" or "California Transit Stops"
+
+**Fields Used:**
+- Stop ID, name, coordinates
+- Agency information
+- Stop type
+
+**Coverage:** 200+ California transit agencies, ~64,000 stops (raw), ~24,000 unique locations (deduplicated)
+
+**Projects:** mobility-deserts
+
+**Terms of Use:** Public data. California Open Data license.
 
 ---
 

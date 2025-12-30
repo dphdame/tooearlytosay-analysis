@@ -9,6 +9,8 @@ Replication materials for research published on [Too Early to Say](https://tooea
 | [food-desert-myth](./food-desert-myth/) | [The Food Desert Myth](https://tooearlytosay.com/food-desert-myth/) | Vulnerability index methodology for Santa Clara County census tracts |
 | [grocery-store-classifier-validation](./grocery-store-classifier-validation/) | [400 Labels to 94% Accuracy](https://tooearlytosay.com/grocery-store-classifier-validation/) | Validating grocery store classification using Google Maps data |
 | [ebt-verification-methodology](./ebt-verification-methodology/) | [The Retail Density Paradox](https://tooearlytosay.com/ebt-verification-methodology/) | SNAP retailer data validation methodology |
+| [mobility-deserts](./mobility-deserts/) | [Mobility Deserts](https://tooearlytosay.com/hidden-mobility-deserts/) | Identifying CA census tracts with grocery access but poor transit |
+| [working-poor-silicon-valley](./working-poor-silicon-valley/) | [When Work Isn't Enough](https://tooearlytosay.com/working-poor-silicon-valley/) | Bay Area tracts with high employment but elevated poverty |
 
 ## Getting Started
 
