@@ -1,0 +1,7 @@
+# Residualized Index Analysis
+pandas>=2.0.0
+numpy>=1.24.0
+statsmodels>=0.14.0
+scipy>=1.11.0
+census>=0.8.21
+python-dotenv>=1.0.0
