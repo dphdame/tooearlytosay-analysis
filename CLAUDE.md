@@ -38,10 +38,11 @@ tooearlytosay-analysis/
         └── processed/.gitkeep   # Processed data (not committed)
 ```
 
-## Current Projects (18 total)
+## Current Projects (19 total)
 
 | Project | Blog Post | Status |
 |---------|-----------|--------|
+| medicaid-fraud-detection | Screening for Medicaid Fraud (4-part series) | Published |
 | food-desert-myth | The Food Desert Myth | Published |
 | grocery-store-classifier-validation | 400 Labels to 94% Accuracy | Published |
 | ebt-verification-methodology | The Retail Density Paradox | Published |
@@ -65,9 +66,11 @@ tooearlytosay-analysis/
 
 These posts don't have replication code (by design):
 
-**Education Policy (different domain):**
+**Education Policy (narrative, not data analysis):**
 - protecting-special-ed-shifted-cuts
 - stimulus-saved-schools-then-worse
+- unfunded-mandate-special-education
+- special-education-spending-puzzle
 
 **Meta/AI Coding Posts (methodology, not data analysis):**
 - ai-research-graphics-antigravity
@@ -75,6 +78,29 @@ These posts don't have replication code (by design):
 - copy-paste-ai-coding-limits
 - methodology-to-code-ai
 - claude-md-research-context
+- claude-code-guide
+- claude-code-insights
+- cold-start-problem
+- context-window-budgeting
+- creating-skills
+- data-portal-monitoring
+- end-of-session-hygiene
+- first-session-claude-code
+- hooks-automation
+- linkedin-post-staging
+- literature-surveillance-skill
+- mcp-servers
+- personal-ai-infrastructure
+- reading-codebase
+- research-phases-prompts
+- spawning-agents
+- understanding-context
+- verification-tax
+
+**Conceptual/Tutorial (no dataset to replicate):**
+- question-first-data-management
+- parallel-trends-sensitivity
+- grocery-tier-validation
 
 ## Adding a New Project
 
