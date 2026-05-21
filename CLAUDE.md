@@ -159,40 +159,9 @@ git push origin main
 | BLS Wages | api.bls.gov | Yes (free) |
 | SafeGraph | safegraph.com | Commercial license |
 
-## Ghost Blog Integration
+## Site Platform
 
-When adding repo projects, update the corresponding blog posts to link to the repo:
-
-```javascript
-// Use mobiledoc format for Ghost edits
-const GhostAdminAPI = require('@tryghost/admin-api');
-const api = new GhostAdminAPI({
-    url: 'https://tooearlytosay.com',
-    key: 'REDACTED_GHOST_ADMIN_KEY',
-    version: 'v5.0'
-});
-```
-
-**Important:** Ghost stores content in mobiledoc format, not HTML. Edits using `html` parameter won't persist. Parse and modify `mobiledoc` directly.
-
-## Checking Blog-Repo Alignment
-
-To list all blog posts and check for repo coverage:
-
-```bash
-cd /Users/victoriaperez/Projects/TooEarly
-node -e "
-const GhostAdminAPI = require('@tryghost/admin-api');
-const api = new GhostAdminAPI({
-    url: 'https://tooearlytosay.com',
-    key: 'REDACTED_GHOST_ADMIN_KEY',
-    version: 'v5.0'
-});
-api.posts.browse({ limit: 'all' }).then(posts => {
-    posts.forEach(p => console.log(p.slug + ' | ' + p.status + ' | ' + p.title));
-});
-"
-```
+tooearlytosay.com is a static site (Express.js serving pre-rendered HTML). The previous Ghost CMS has been retired; see the TooEarly repo for current publishing workflow. When adding a new replication project here, update the corresponding article HTML in the TooEarly repo to link back to this repo, and add a row to this README's projects table.
 
 ## Last Updated
 
