@@ -6,6 +6,7 @@ Replication materials for research published on [Too Early to Say](https://tooea
 
 | Project | Blog Post | Description |
 |---------|-----------|-------------|
+| [medicaid-fraud-detection](./medicaid-fraud-detection/) | [Screening for Medicaid Fraud (4-part series)](https://tooearlytosay.com/research/methodology/medicaid-data-landscape/) | LEIE exclusions, Medicaid spending data, feature engineering, and a baseline screening classifier |
 | [food-desert-myth](./food-desert-myth/) | [The Food Desert Myth](https://tooearlytosay.com/food-desert-myth/) | Vulnerability index methodology for Santa Clara County census tracts |
 | [grocery-store-classifier-validation](./grocery-store-classifier-validation/) | [400 Labels to 94% Accuracy](https://tooearlytosay.com/grocery-store-classifier-validation/) | Validating grocery store classification using Google Maps data |
 | [ebt-verification-methodology](./ebt-verification-methodology/) | [The Retail Density Paradox](https://tooearlytosay.com/ebt-verification-methodology/) | SNAP retailer data validation methodology |
