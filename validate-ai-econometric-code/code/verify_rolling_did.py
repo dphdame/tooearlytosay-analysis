@@ -3,7 +3,7 @@ Proof: verify_estimator applied to a rolling difference-in-differences estimator
 
 Three results, all reproducible:
   (1) CATCH  -- the `demean` transform is systematically biased on a DGP with
-      heterogeneous unit trends (recovers ~2.04 against a planted 1.0). The
+      heterogeneous unit trends (recovers ~2.03 against a planted 1.0). The
       planted-truth Monte Carlo catches it. `detrend` recovers the truth.
   (2) COVER  -- the correct `detrend` estimator's own 95% CI covers ~95%, so the
       check is "did we recover the mean AND is inference calibrated", not mean only.
@@ -32,7 +32,14 @@ TRUE_ATT = 1.0
 
 
 def simulate_hard(true_effect, rng):
-    """Hard DGP: 3 treated + 3 control, heterogeneous trends + seasonality."""
+    """Hard DGP: 3 treated + 3 control, heterogeneous trends + seasonality.
+
+    NB: this threads a per-rep RNG into the prototype's module-level global, and
+    smalln_common's randomization-inference reads that same global. It is safe
+    ONLY because the returned `att` comes from OLS and is RI-independent. If a
+    future edit made the estimate depend on the RI draws, it would silently
+    reintroduce the Section-(3) shared-RNG-state bug this file warns about.
+    """
     rdp.RNG = rng                                   # thread the rep's RNG stream
     return rdp.make_panel(3, 3, 9, 16, true_att=true_effect,
                           hetero_trend=True, seasonal=True)
@@ -76,7 +83,7 @@ for i in range(reps_cov):
     lo, hi = row["att"] - tcrit * row["se_t"], row["att"] + tcrit * row["se_t"]
     covered += (lo <= TRUE_ATT <= hi)
 print(f"empirical coverage = {covered / reps_cov:.3f} "
-      f"(nominal 0.95, {reps_cov} reps)")
+      f"(nominal 0.95, {reps_cov} reps; MC SE ~0.01, so the 3rd digit is noise)")
 
 # ---------------------------------------------------------------------------
 # (3) LIMIT: the execution-order bug is invisible to the MC (no bias)

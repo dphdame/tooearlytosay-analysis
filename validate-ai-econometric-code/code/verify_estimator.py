@@ -15,6 +15,9 @@ package. Honest scope:
     without biasing the estimator (e.g. shared-RNG-state / execution-order
     bugs). Those are caught by source review + a code invariant, not by this
     test. See the Limits section of the article.
+  - It catches a biasing bug ONLY if your `simulate_dgp` exercises the feature
+    that triggers it. The check is only as strong as the DGP you plant: it
+    verifies recovery under the process you simulate, not correctness in general.
 
 Deps: numpy.
 """
