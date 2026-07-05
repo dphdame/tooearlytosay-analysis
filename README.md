@@ -7,24 +7,24 @@ Replication materials for research published on [Too Early to Say](https://tooea
 | Project | Blog Post | Description |
 |---------|-----------|-------------|
 | [medicaid-fraud-detection](./medicaid-fraud-detection/) | [Screening for Medicaid Fraud (4-part series)](https://tooearlytosay.com/research/methodology/medicaid-data-landscape/) | LEIE exclusions, Medicaid spending data, feature engineering, and a baseline screening classifier |
-| [food-desert-myth](./food-desert-myth/) | [The Food Desert Myth](https://tooearlytosay.com/food-desert-myth/) | Vulnerability index methodology for Santa Clara County census tracts |
-| [grocery-store-classifier-validation](./grocery-store-classifier-validation/) | [400 Labels to 94% Accuracy](https://tooearlytosay.com/grocery-store-classifier-validation/) | Validating grocery store classification using Google Maps data |
-| [ebt-verification-methodology](./ebt-verification-methodology/) | [The Retail Density Paradox](https://tooearlytosay.com/ebt-verification-methodology/) | SNAP retailer data validation methodology |
-| [mobility-deserts](./mobility-deserts/) | [Mobility Deserts](https://tooearlytosay.com/hidden-mobility-deserts/) | Identifying CA census tracts with grocery access but poor transit |
-| [working-poor-silicon-valley](./working-poor-silicon-valley/) | [When Work Isn't Enough](https://tooearlytosay.com/working-poor-silicon-valley/) | Bay Area tracts with high employment but elevated poverty |
-| [housing-tenure](./housing-tenure/) | [Renters vs. Owners](https://tooearlytosay.com/housing-tenure/) | Housing tenure and grocery accessibility analysis |
-| [transit-equity-race](./transit-equity-race/) | [Transit Equity and Race](https://tooearlytosay.com/transit-equity-race/) | Racial disparities in transit-based food access |
-| [crime-geography-precision](./crime-geography-precision/) | [Crime Geography Precision](https://tooearlytosay.com/crime-geography-precision/) | Block-level vs tract-level crime analysis precision |
-| [food-access-vulnerability-paradox](./food-access-vulnerability-paradox/) | [The Vulnerability Paradox](https://tooearlytosay.com/food-access-vulnerability-paradox/) | High grocery access coexisting with high vulnerability |
-| [scaling-statewide](./scaling-statewide/) | [Scaling Statewide](https://tooearlytosay.com/scaling-statewide/) | County-to-state scaling methodology |
-| [residualized-accessibility-index](./residualized-accessibility-index/) | [Beyond Distance](https://tooearlytosay.com/residualized-accessibility-index/) | Accessibility index controlling for confounders |
-| [county-comparison-methods](./county-comparison-methods/) | [Apples to Apples](https://tooearlytosay.com/county-comparison-methods/) | Standardized cross-county comparison methods |
-| [data-quality-improvement](./data-quality-improvement/) | [From 49% to 12%](https://tooearlytosay.com/data-quality-49-to-12/) | Data quality improvement workflow |
-| [transit-routing-free-tools](./transit-routing-free-tools/) | [Free Transit Routing](https://tooearlytosay.com/transit-routing-free-tools/) | Open-source transit accessibility analysis |
-| [diverging-trajectories](./diverging-trajectories/) | [Diverging Trajectories](https://tooearlytosay.com/diverging-trajectories/) | Long-term food access trend analysis |
-| [covid-differential-impact](./covid-differential-impact/) | [COVID's Unequal Impact](https://tooearlytosay.com/covid-differential-impact/) | Pandemic impact on food access by vulnerability |
-| [extended-vulnerability-index](./extended-vulnerability-index/) | [Extended Vulnerability Index](https://tooearlytosay.com/extended-vulnerability-index/) | Multi-domain vulnerability measure construction |
-| [robust-api-collection](./robust-api-collection/) | [6,613 Stores, Zero Lost Data](https://tooearlytosay.com/robust-api-data-collection/) | Robust API data collection patterns |
+| [food-desert-myth](./food-desert-myth/) | [The Food Desert Myth](https://tooearlytosay.com/research/food-security/food-desert-myth/) | Vulnerability index methodology for Santa Clara County census tracts |
+| [grocery-store-classifier-validation](./grocery-store-classifier-validation/) | [400 Labels to 94% Accuracy](https://tooearlytosay.com/research/methodology/grocery-store-classifier-validation/) | Validating grocery store classification using Google Maps data |
+| [ebt-verification-methodology](./ebt-verification-methodology/) | [The Retail Density Paradox](https://tooearlytosay.com/research/methodology/ebt-verification-methodology/) | SNAP retailer data validation methodology |
+| [mobility-deserts](./mobility-deserts/) | [Mobility Deserts](https://tooearlytosay.com/research/transit-equity/hidden-mobility-deserts/) | Identifying CA census tracts with grocery access but poor transit |
+| [working-poor-silicon-valley](./working-poor-silicon-valley/) | [When Work Isn't Enough](https://tooearlytosay.com/research/food-security/working-poor-silicon-valley/) | Bay Area tracts with high employment but elevated poverty |
+| [housing-tenure](./housing-tenure/) | [Renters vs. Owners](https://tooearlytosay.com/research/transit-equity/housing-tenure/) | Housing tenure and grocery accessibility analysis |
+| [transit-equity-race](./transit-equity-race/) | [Transit Equity and Race](https://tooearlytosay.com/research/transit-equity/transit-equity-race/) | Racial disparities in transit-based food access |
+| [crime-geography-precision](./crime-geography-precision/) | [Crime Geography Precision](https://tooearlytosay.com/research/methodology/crime-geography-precision/) | Block-level vs tract-level crime analysis precision |
+| [food-access-vulnerability-paradox](./food-access-vulnerability-paradox/) | [The Vulnerability Paradox](https://tooearlytosay.com/research/food-security/food-access-vulnerability-paradox/) | High grocery access coexisting with high vulnerability |
+| [scaling-statewide](./scaling-statewide/) | [Scaling Statewide](https://tooearlytosay.com/research/methodology/scaling-statewide/) | County-to-state scaling methodology |
+| [residualized-accessibility-index](./residualized-accessibility-index/) | [Beyond Distance](https://tooearlytosay.com/research/methodology/residualized-accessibility-index/) | Accessibility index controlling for confounders |
+| [county-comparison-methods](./county-comparison-methods/) | [Apples to Apples](https://tooearlytosay.com/research/methodology/county-comparison-methods/) | Standardized cross-county comparison methods |
+| [data-quality-improvement](./data-quality-improvement/) | [From 49% to 12%](https://tooearlytosay.com/research/transit-equity/data-quality-49-to-12/) | Data quality improvement workflow |
+| [transit-routing-free-tools](./transit-routing-free-tools/) | [Free Transit Routing](https://tooearlytosay.com/research/methodology/transit-routing-free-tools/) | Open-source transit accessibility analysis |
+| [diverging-trajectories](./diverging-trajectories/) | [Diverging Trajectories](https://tooearlytosay.com/research/food-security/diverging-trajectories/) | Long-term food access trend analysis |
+| [covid-differential-impact](./covid-differential-impact/) | [COVID's Unequal Impact](https://tooearlytosay.com/research/food-security/covid-differential-impact/) | Pandemic impact on food access by vulnerability |
+| [extended-vulnerability-index](./extended-vulnerability-index/) | [Extended Vulnerability Index](https://tooearlytosay.com/research/food-security/extended-vulnerability-index/) | Multi-domain vulnerability measure construction |
+| [robust-api-collection](./robust-api-collection/) | [6,613 Stores, Zero Lost Data](https://tooearlytosay.com/research/methodology/robust-api-collection/) | Robust API data collection patterns |
 
 ## Getting Started
 
