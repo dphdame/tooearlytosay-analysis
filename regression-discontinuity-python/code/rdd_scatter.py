@@ -6,11 +6,18 @@ rdd_planted_truth.py. Shows the global quadratic fit overshooting the jump at th
 Writes figures/rdd-scatter.png. (The site build converts it to webp.)
 """
 import os
+import json
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
+
+# CANONICAL jumps: read the SAME results.json the prose cites (rdd_planted_truth.py output), so the
+# figure labels/title cannot drift from the run the article quotes (2026-07-05 red-team D4).
+with open("../data/results.json") as _fh:
+    R = json.load(_fh)
+G, L = R["naive_global_quadratic_single"], R["local_linear_single"]   # 1.82, 0.87
 
 SEED = 20260704
 rng = np.random.default_rng(SEED)
@@ -29,7 +36,7 @@ xs = np.linspace(-1, 1, 400)
 gq = sm.OLS(Y, sm.add_constant(np.column_stack([D, X, X ** 2]))).fit().params
 ax.plot(xs[xs < 0], gq[0] + gq[2] * xs[xs < 0] + gq[3] * xs[xs < 0] ** 2, c=CORAL, lw=2.4, zorder=3)
 ax.plot(xs[xs >= 0], gq[0] + gq[1] + gq[2] * xs[xs >= 0] + gq[3] * xs[xs >= 0] ** 2, c=CORAL, lw=2.4,
-        zorder=3, label="global quadratic (jump 1.82)")
+        zorder=3, label=f"global quadratic (jump {G:.2f})")
 
 h = 0.20
 def ll(side):
@@ -39,11 +46,11 @@ def ll(side):
 lL, lR = ll(X < 0), ll(X >= 0)
 xl, xr = np.linspace(-h, 0, 50), np.linspace(0, h, 50)
 ax.plot(xl, lL[0] + lL[1] * xl, c=TEAL, lw=3, zorder=4)
-ax.plot(xr, lR[0] + lR[1] * xr, c=TEAL, lw=3, zorder=4, label="local linear (jump 0.87)")
+ax.plot(xr, lR[0] + lR[1] * xr, c=TEAL, lw=3, zorder=4, label=f"local linear (jump {L:.2f})")
 
 ax.set_xlabel("running variable", color=INK, fontsize=12)
 ax.set_ylabel("outcome", color=INK, fontsize=12)
-ax.set_title("The jump at the cutoff: the global fit reads 1.82, the local fit 0.87",
+ax.set_title(f"The jump at the cutoff: the global fit reads {G:.2f}, the local fit {L:.2f}",
              color=SLATE, fontsize=12.5, fontweight="bold", pad=10)
 ax.legend(loc="upper left", fontsize=10, frameon=False)
 ax.tick_params(colors=INK, labelsize=10)

@@ -65,6 +65,12 @@ def unrestricted_synth(treated, donors):
 
 
 def main():
+    # CANONICAL numbers: read the SAME results.json the prose cites (sc_planted_truth.py output).
+    # Every annotated value below comes from R, never an inline literal — so a figure cannot drift
+    # from the run the article quotes (2026-07-05 red-team D4). Fail loud if it is missing/stale.
+    with open("../data/results.json") as fh:
+        R = json.load(fh)
+
     # shared draws
     tv, dv = simulate(np.random.default_rng(SEED), valid_pool=True)
     wv, prev, gapv = sc_convex(tv, dv)
@@ -99,7 +105,8 @@ def main():
     lo, hi = tv[:T0].min(), tv[:T0].max()
     ax.set_ylim(lo - 0.4, hi + 1.6)               # headroom for the annotation, clear of the lines
     ax.set_xlabel("Pre-treatment period", color=INK, fontsize=11); ax.set_ylabel("Outcome", color=INK, fontsize=11)
-    ax.text(0.5, 0.90, "Pre-RMSPE = 0.000     estimated gap ≈ 6.13", transform=ax.transAxes,
+    ax.text(0.5, 0.90, f"Pre-RMSPE = {R['naive_overfit_pre_rmspe_single']:.3f}     "
+            f"estimated gap ≈ {R['naive_overfit_gap_single']:.2f}", transform=ax.transAxes,
             ha="center", va="top", fontsize=11.5, color=CORAL, fontweight="bold",
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=CORAL, alpha=0.9))
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2,
@@ -128,7 +135,8 @@ def main():
 
     # ---- Fig 4: ridge sweep — pre-RMSPE rises, gap stays near 6 ----
     lams = [0.1, 1.0, 10.0]
-    rp = [naive_ridge(tv, dv, l) for l in lams]
+    _rs = R["naive_ridge_sweep"]["valid_pool"]           # canonical, not recomputed
+    rp = [(_rs[str(l)]["pre_rmspe"], _rs[str(l)]["gap"]) for l in lams]
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(9.2, 4.0)); _style(a1); _style(a2)
     x = np.arange(len(lams))
     pr_v = [p for p, _ in rp]
@@ -150,12 +158,13 @@ def main():
     # ---- Fig 5: unrestricted vs convex — pre-RMSPE + gap ----
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(9.2, 4.0)); _style(a1); _style(a2)
     labels = ["Unrestricted", "Convex SC"]; cols = [CORAL, TEAL]
-    pre_vals = [0.000, 0.303]
+    pre_vals = [R["naive_overfit_pre_rmspe_single"], R["sc_convex_pre_rmspe_single"]]
     a1.bar(labels, pre_vals, color=cols); a1.set_ylim(0, 0.36)
     for i, v in enumerate(pre_vals):
         a1.text(i, v + 0.012, f"{v:.3f}", ha="center", va="bottom", color=INK, fontsize=11, fontweight="bold")
     a1.set_title("Pre-fit RMSPE", color=INK, fontsize=12, fontweight="bold")
-    gap_vals, sd_vals = [6.132, 6.058], [0.425, 0.185]
+    gap_vals = [R["naive_overfit_gap_single"], R["sc_convex_gap_single"]]
+    sd_vals = [R["naive_overfit_gap_sd"], R["sc_convex_gap_sd"]]
     a2.bar(labels, gap_vals, color=cols, yerr=sd_vals, capsize=6, ecolor=INK)
     a2.axhline(TAU, color=MUTED, ls="--", lw=1.2); a2.set_ylim(0, 7.6)
     for i, (v, sd) in enumerate(zip(gap_vals, sd_vals)):   # label ABOVE the error-bar cap
@@ -164,7 +173,9 @@ def main():
     fig.tight_layout(); _save(fig, "fig5-fix")
 
     # ---- Fig 6: fit-window walk ----
-    Ls = [6, 9, 12]; fw = [convex_gap_fitwindow(tv, dv, L) for L in Ls]
+    Ls = [6, 9, 12]
+    _fw = R["convex_fitwindow_walk"]["valid_pool"]       # canonical, not recomputed
+    fw = [(_fw[str(L)]["pre_rmspe"], _fw[str(L)]["gap"]) for L in Ls]
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(9.2, 4.0)); _style(a1); _style(a2)
     x = np.arange(len(Ls))
     pr_v = [p for p, _ in fw]
@@ -187,13 +198,14 @@ def main():
 
     # ---- Fig 7: valid vs invalid pool pre-fit ----
     fig, ax = plt.subplots(figsize=(8.2, 4.6)); _style(ax)
-    labels = ["Valid pool", "Unusable pool"]; vals = [0.303, 7.613]
+    labels = ["Valid pool", "Unusable pool"]
+    vals = [R["sc_convex_pre_rmspe_single"], R["invalid_pool_convex_pre_rmspe_single"]]
     ax.bar(labels, vals, color=[TEAL, CORAL], width=0.6)
     ax.set_ylim(0, 10.2)                            # headroom so the note clears the tall bar
     for i, v in enumerate(vals):
         ax.text(i, v + 0.18, f"convex {v:.3f}", ha="center", va="bottom", color=INK, fontsize=12, fontweight="bold")
     # note lives in the reserved whitespace ABOVE both bars, not over them
-    ax.text(0.5, 0.955, "Unrestricted pre-RMSPE = 0.000 on BOTH pools — it gives no warning",
+    ax.text(0.5, 0.955, f"Unrestricted pre-RMSPE = {R['naive_overfit_pre_rmspe_single']:.3f} on BOTH pools — it gives no warning",
             transform=ax.transAxes, ha="center", va="top", fontsize=10.5, color=CORAL, fontweight="bold",
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=CORAL, alpha=0.9))
     ax.set_ylabel("Convex pre-fit RMSPE", color=INK, fontsize=11)
@@ -229,25 +241,26 @@ def main():
     ax.set_ylim(0, max(np.histogram(placebo_gaps, bins=12)[0]) * 1.25)
     ax.set_xlabel("Estimated gap", color=INK, fontsize=11); ax.set_ylabel("Count", color=INK, fontsize=11)
     # text placed in the empty mid-region between the placebo cluster (~0) and the treated line (~6)
-    ax.text(0.42, 0.72, "p = rank / (J+1)\nsmallest possible = 1/16 ≈ 0.062", transform=ax.transAxes,
+    ax.text(0.42, 0.72, f"p = rank / (J+1)\nsmallest possible = 1/{J + 1} ≈ {R['permutation_p_floor']:.3f}", transform=ax.transAxes,
             ha="left", va="top", fontsize=11, color=INK, fontweight="bold",
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=MUTED, alpha=0.85))
     ax.legend(loc="upper center", frameon=False, fontsize=10, labelcolor=INK)
     fig.tight_layout(); _save(fig, "fig9-permutation-floor")
 
     # ---- shared plotted-contract sidecar (labels locate each point in the alt text) ----
+    # every scalar traces to the canonical R (sc_planted_truth.py), not a re-typed literal
     sidecar = {
-        "source": "sc_comprehension_figures.py — same DGP/seed as sc_planted_truth.py (20260705)",
-        "true_effect": 6.0,
-        "naive_gap": 6.132, "naive_pre_rmspe": 0.0,
-        "convex_gap": 6.058, "convex_pre_rmspe": 0.303,
-        "naive_gap_sd": 0.425, "convex_gap_sd": 0.185,
-        "invalid_convex_pre_rmspe": 7.613,
-        "permutation_floor": 0.062,
+        "source": "sc_comprehension_figures.py — reads ../data/results.json (sc_planted_truth.py, seed 20260705)",
+        "true_effect": R["planted_effect_truth"],
+        "naive_gap": R["naive_overfit_gap_single"], "naive_pre_rmspe": R["naive_overfit_pre_rmspe_single"],
+        "convex_gap": R["sc_convex_gap_single"], "convex_pre_rmspe": R["sc_convex_pre_rmspe_single"],
+        "naive_gap_sd": R["naive_overfit_gap_sd"], "convex_gap_sd": R["sc_convex_gap_sd"],
+        "invalid_convex_pre_rmspe": R["invalid_pool_convex_pre_rmspe_single"],
+        "permutation_floor": R["permutation_p_floor"],
         "plotted": [
-            {"label": "Unrestricted synthetic", "value": 0.0},
-            {"label": "valid pool convex", "value": 0.303},
-            {"label": "unusable pool convex", "value": 7.613},
+            {"label": "Unrestricted synthetic", "value": R["naive_overfit_pre_rmspe_single"]},
+            {"label": "valid pool convex", "value": R["sc_convex_pre_rmspe_single"]},
+            {"label": "unusable pool convex", "value": R["invalid_pool_convex_pre_rmspe_single"]},
         ],
     }
     with open(f"{OUTDIR}/results.json", "w") as fh:
