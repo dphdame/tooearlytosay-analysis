@@ -1,6 +1,6 @@
 # Matching in Python
 
-Replication materials for ["Matching in Python: a balanced covariate table doesn't make the estimate valid"](https://tooearlytosay.com/research/methodology/matching-python/).
+Replication materials for ["Matching in Python: Balance Does Not Prove Validity"](https://tooearlytosay.com/research/methodology/matching-python/).
 
 ## What it shows
 
@@ -51,8 +51,16 @@ same for every unit, so ATT = ATE):
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 python code/matching_planted_truth.py          # prints + writes data/results.json
-python code/matching_comprehension_figures.py  # writes the figure png set (asserts layout)
 ```
 
 Seed is fixed (20260705); no data download. Trimming to common support removes the bad-match bias, but
 only the observed-covariate version of it — an unobserved confounder passes every check unmarked.
+
+## Optional site-maintainer figure workflow
+
+The figure script targets the Too Early To Say site asset workflow. It is not portable replication
+output and is not part of the clean-clone evidence gate.
+
+```bash
+python code/matching_comprehension_figures.py  # writes the figure png set (asserts layout)
+```

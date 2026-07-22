@@ -1,6 +1,6 @@
 # Instrumental variables in Python
 
-Replication materials for ["Instrumental variables in Python: a strong first stage doesn't make the estimate valid"](https://tooearlytosay.com/research/methodology/instrumental-variables-python/).
+Replication materials for ["Instrumental Variables in Python: Strength Is Not Validity"](https://tooearlytosay.com/research/methodology/instrumental-variables-python/).
 
 ## What it shows
 
@@ -46,8 +46,16 @@ statistic. A large first-stage F confirms relevance and is silent on validity.
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 python code/iv_planted_truth.py          # prints + writes data/results.json
-python code/iv_comprehension_figures.py  # writes the figure png set
 ```
 
 Seed is fixed (20260705); no data download. The two-stage estimate corrects the OLS confounding bias,
 but only under the exclusion restriction — which no first-stage statistic can certify.
+
+## Optional site-maintainer figure workflow
+
+The figure script targets the Too Early To Say site asset workflow. It is not portable replication
+output and is not part of the clean-clone evidence gate.
+
+```bash
+python code/iv_comprehension_figures.py  # writes the figure png set
+```

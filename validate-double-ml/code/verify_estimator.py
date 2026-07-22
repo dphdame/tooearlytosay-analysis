@@ -21,11 +21,19 @@ package. Honest scope:
 
 Deps: numpy.
 """
+from concurrent.futures import ProcessPoolExecutor
+
 import numpy as np
 
 
+def _estimate_one(args):
+    estimator, simulate_dgp, true_effect, seed = args
+    rng = np.random.default_rng(seed)
+    return estimator(simulate_dgp(true_effect, rng))
+
+
 def verify_estimator(estimator, simulate_dgp, true_effect, tol,
-                     reps=1000, base_seed=0):
+                     reps=1000, base_seed=0, workers=1):
     """Run `estimator` on `reps` simulated datasets with a planted `true_effect`;
     report whether the mean estimate recovers it within `tol`.
 
@@ -37,15 +45,25 @@ def verify_estimator(estimator, simulate_dgp, true_effect, tol,
     tol           : float                             allowed |mean - true_effect|
     reps          : int                               Monte Carlo replications
     base_seed     : int                               reproducibility
+    workers       : int                               independent draws to run concurrently
 
     Returns
     -------
     dict with mean, mc_se (Monte Carlo SE of the mean), bias, passed, estimates.
     """
-    est = np.empty(reps)
-    for i in range(reps):
-        rng = np.random.default_rng(base_seed + i)      # independent stream per rep
-        est[i] = estimator(simulate_dgp(true_effect, rng))
+    if workers < 1:
+        raise ValueError("workers must be at least 1")
+    tasks = (
+        (estimator, simulate_dgp, true_effect, base_seed + i)
+        for i in range(reps)
+    )
+    if workers == 1:
+        est = np.fromiter((_estimate_one(task) for task in tasks),
+                          dtype=float, count=reps)
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as executor:
+            est = np.fromiter(executor.map(_estimate_one, tasks),
+                              dtype=float, count=reps)
     mean = float(est.mean())
     mc_se = float(est.std(ddof=1) / np.sqrt(reps))
     bias = mean - true_effect

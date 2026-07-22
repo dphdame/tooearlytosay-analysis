@@ -41,6 +41,8 @@ Blind spots of THIS harness (quote in the article's Limits):
     is unreachable regardless of the true effect size.
 """
 import json
+from pathlib import Path
+
 import numpy as np
 from scipy.optimize import minimize
 
@@ -49,6 +51,10 @@ T, T0, K = 24, 12, 3           # periods, pre-treatment periods, latent factors
 J = 15                          # donors (J > T0 so the naive fit can overfit)
 TAU = 6.0                       # planted treatment effect (post-treatment, on unit 0)
 DRAWS = 200
+RESULTS_PATH = Path(__file__).resolve().parent.parent / "data" / "results.json"
+CONSTRAINT_TOL = 1e-6
+CLEAN_GAP_TOL = 0.10
+INVALID_POOL_PRE_RMSPE_MIN = 3.0
 
 
 def simulate(rng, valid_pool=True):
@@ -72,18 +78,46 @@ def _rmspe(resid):
     return float(np.sqrt(np.mean(resid ** 2)))
 
 
+def checked_convex_weights(result):
+    """Require optimizer convergence and a feasible convex-weight solution."""
+    if not result.success:
+        raise RuntimeError(f"convex optimizer failed: {result.message}")
+    weights = np.asarray(result.x)
+    if not np.all(np.isfinite(weights)):
+        raise AssertionError("convex optimizer returned non-finite weights")
+    if np.any(weights < -CONSTRAINT_TOL) or np.any(weights > 1 + CONSTRAINT_TOL):
+        raise AssertionError("convex weights violate the [0, 1] bounds")
+    if not np.isclose(weights.sum(), 1.0, atol=CONSTRAINT_TOL, rtol=0.0):
+        raise AssertionError(
+            f"convex weights sum to {weights.sum():.12f}, expected 1.0"
+        )
+    return weights
+
+
+def assert_within_tolerance(name, estimate, truth, tolerance):
+    """Require a planted-truth estimate to meet its engineering tolerance."""
+    if not np.isfinite(estimate):
+        raise AssertionError(f"{name}: estimate is non-finite ({estimate})")
+    error = abs(estimate - truth)
+    if error > tolerance:
+        raise AssertionError(
+            f"{name}: |{estimate:.6f} - {truth:.6f}| = {error:.6f} "
+            f"exceeds tolerance {tolerance:.6f}"
+        )
+
+
 def sc_convex(treated, donors):
     """Convex synthetic control: w>=0, sum w=1, min pre-period MSPE."""
     n = donors.shape[0]                               # infer donor count (placebos drop one)
     Ypre_t, Ypre_d = treated[:T0], donors[:, :T0]     # T0 , n x T0
     def obj(w):
-        return np.sum((Ypre_t - w @ Ypre_d) ** 2)
+        return np.mean((Ypre_t - w @ Ypre_d) ** 2)
     w0 = np.ones(n) / n
     cons = ({"type": "eq", "fun": lambda w: np.sum(w) - 1},)
     bnds = [(0, 1)] * n
     res = minimize(obj, w0, method="SLSQP", bounds=bnds, constraints=cons,
                    options={"maxiter": 500, "ftol": 1e-10})
-    w = res.x
+    w = checked_convex_weights(res)
     pre_rmspe = _rmspe(Ypre_t - w @ Ypre_d)
     synth_post = w @ donors[:, T0:]
     post_gap = float(np.mean(treated[T0:] - synth_post))
@@ -118,11 +152,11 @@ def convex_gap_fitwindow(treated, donors, L):
     lo = T0 - L
     Ypre_t, Ypre_d = treated[lo:T0], donors[:, lo:T0]
     def obj(w):
-        return np.sum((Ypre_t - w @ Ypre_d) ** 2)
+        return np.mean((Ypre_t - w @ Ypre_d) ** 2)
     cons = ({"type": "eq", "fun": lambda w: np.sum(w) - 1},)
     res = minimize(obj, np.ones(n) / n, method="SLSQP", bounds=[(0, 1)] * n,
                    constraints=cons, options={"maxiter": 500, "ftol": 1e-10})
-    w = res.x
+    w = checked_convex_weights(res)
     pre_rmspe = _rmspe(Ypre_t - w @ Ypre_d)
     post_gap = float(np.mean(treated[T0:] - w @ donors[:, T0:]))
     return pre_rmspe, post_gap
@@ -194,11 +228,21 @@ def main():
         tb, db = simulate(rng2, valid_pool=False)
         sc_bad_pre.append(sc_convex(tb, db)[1]); nv_bad_pre_d.append(naive_overfit(tb, db)[0])
 
+    sc_gap_mean = float(np.mean(sc_gaps))
+    assert_within_tolerance(
+        "clean-pool convex gap", sc_gap_mean, TAU, CLEAN_GAP_TOL
+    )
+    if not np.isfinite(bad_pre) or bad_pre < INVALID_POOL_PRE_RMSPE_MIN:
+        raise AssertionError(
+            "invalid-pool negative control did not fail loudly: "
+            f"pre-RMSPE {bad_pre:.6f} is below {INVALID_POOL_PRE_RMSPE_MIN:.6f}"
+        )
+
     results = {
         "source": "sc_planted_truth.py — planted-truth synthetic control, seed 20260705, T=24 T0=12 J=15",
         "planted_effect_truth": TAU,
         "sc_convex_gap_single": round(sc_gap, 3),
-        "sc_convex_gap_mean": round(float(np.mean(sc_gaps)), 3),
+        "sc_convex_gap_mean": round(sc_gap_mean, 3),
         "sc_convex_gap_sd": round(float(np.std(sc_gaps)), 3),
         "sc_convex_pre_rmspe_single": round(sc_pre, 3),
         "naive_overfit_gap_single": round(nv_gap, 3),
@@ -218,9 +262,16 @@ def main():
         "draws": DRAWS,
     }
     print(json.dumps(results, indent=2))
-    with open("../data/results.json", "w") as fh:
+    RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with RESULTS_PATH.open("w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
-    print("\nwrote ../data/results.json")
+    print("\nwrote data/results.json")
+    print(
+        "Release gate: PASS "
+        f"(optimizer success; convex weights feasible within {CONSTRAINT_TOL:g}; "
+        f"clean gap within {CLEAN_GAP_TOL:.2f}; "
+        f"invalid-pool pre-RMSPE >= {INVALID_POOL_PRE_RMSPE_MIN:.1f})"
+    )
 
 
 if __name__ == "__main__":

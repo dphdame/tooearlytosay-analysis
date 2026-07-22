@@ -46,8 +46,16 @@ control; that judgment is substantive, not statistical.
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 python code/sc_planted_truth.py      # prints + writes data/results.json
-python code/sc_prefit_panels.py      # writes the two-panel webp
 ```
 
 Seed is fixed (20260705); no data download. Shifting the treated unit's loadings inside or outside
 the donor range is what flips the pre-fit diagnostic from small to large.
+
+## Optional site-maintainer figure workflow
+
+The figure script targets the Too Early To Say site asset workflow. It is not portable replication
+output and is not part of the clean-clone evidence gate.
+
+```bash
+python code/sc_prefit_panels.py      # writes the two-panel webp
+```
