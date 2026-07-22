@@ -11,7 +11,8 @@ The point the harness makes:
      lands close to the truth, with an honest confidence interval.
   3. The local fit is close, NOT exact, and it depends on the bandwidth (a seam).
   4. A limit the harness CANNOT self-catch: if a second program switches on at the
-     SAME cutoff, the estimate is biased and a McCrary density test still passes.
+     SAME cutoff, the estimate combines both discontinuities even when the running
+     variable is smooth by construction.
 
 DGP (honest, so the lesson is real not a strawman):
   running var  X ~ Uniform(-1, 1)
@@ -26,6 +27,8 @@ DGP (honest, so the lesson is real not a strawman):
 All results are reproducible from the fixed seed. No data download.
 """
 import json
+import sys
+from pathlib import Path
 import numpy as np
 import statsmodels.api as sm
 
@@ -35,6 +38,8 @@ CUTOFF = 0.0
 SIGMA = 0.7
 CUTOFF_LATE = 0.75          # the planted truth: effect AT the cutoff
 DRAWS = 200
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+RESULTS_PATH = PACKAGE_ROOT / "data" / "results.json"
 
 
 def tau(x):
@@ -92,14 +97,47 @@ def simulate_compound(rng, jump):
     return x, d, y
 
 
-def mccrary_z(x, band=0.1):
-    """Simple density-continuity check at the cutoff: counts just left vs just right."""
+def window_balance_z(x, band=0.1):
+    """Descriptive count-balance screen in a symmetric cutoff window.
+
+    This binomial z statistic is not a McCrary or local-polynomial density test.
+    A failure to reject equal counts does not confirm the absence of sorting.
+    """
     left = np.sum((x >= -band) & (x < 0))
     right = np.sum((x >= 0) & (x < band))
     tot = left + right
     # z for a proportion test against 0.5 (smooth density -> ~equal counts)
     p = right / tot
     return (p - 0.5) / np.sqrt(0.25 / tot), int(left), int(right)
+
+
+
+def verify_estimator(ll_est, ll_mean, naive_q, truth=CUTOFF_LATE):
+    """Fail loudly if the planted truth is not recovered.
+
+    Without this, the script exits 0 no matter what the estimator returns, so a
+    replication package could silently stop demonstrating its own point. Any claim
+    that this artifact fails loudly depends on this function existing.
+    """
+    failures = []
+    if abs(ll_mean - truth) > 0.10:
+        failures.append(
+            f"local-linear 200-draw mean {ll_mean:.3f} is not within 0.10 of the "
+            f"planted {truth}")
+    if abs(ll_est - truth) > 0.30:
+        failures.append(
+            f"local-linear single draw {ll_est:.3f} is not within 0.30 of the "
+            f"planted {truth}")
+    if abs(naive_q - truth) <= abs(ll_mean - truth):
+        failures.append(
+            f"naive global quadratic {naive_q:.3f} is no worse than local-linear "
+            f"{ll_mean:.3f}; the demonstration no longer demonstrates anything")
+    if failures:
+        for f in failures:
+            print(f"VERIFY FAILED: {f}", file=sys.stderr)
+        raise SystemExit(1)
+    print("verify_estimator: OK — local-linear recovers the planted effect, "
+          "naive global does not")
 
 
 def main():
@@ -135,7 +173,7 @@ def main():
     # --- the hard limit: compound treatment at the cutoff ---
     xc, dc, yc = simulate_compound(np.random.default_rng(SEED + 2), jump=0.5)
     compound_est = float(local_linear(xc, dc, yc, h)[0])
-    z, cl, cr = mccrary_z(xc)
+    z, cl, cr = window_balance_z(xc)
 
     results = {
         "source": "rdd_planted_truth.py — planted-truth sharp RDD, seed 20260704, N=2000",
@@ -151,15 +189,18 @@ def main():
         "local_linear_mean": round(ll_mean, 3),
         "bandwidth_walk_single": {k: round(v, 3) for k, v in walk.items()},
         "compound_treatment_estimate": round(compound_est, 3),
-        "mccrary_z": round(float(z), 3),
-        "mccrary_counts": [cl, cr],
+        "window_balance_z": round(float(z), 3),
+        "window_counts": [cl, cr],
         "draws": DRAWS,
     }
 
+    verify_estimator(float(ll_est), ll_mean, naive_q)
+
     print(json.dumps(results, indent=2))
-    with open("../data/results.json", "w") as fh:
+    RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with RESULTS_PATH.open("w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
-    print("\nwrote ../data/results.json")
+    print(f"\nwrote {RESULTS_PATH}")
 
 
 if __name__ == "__main__":
