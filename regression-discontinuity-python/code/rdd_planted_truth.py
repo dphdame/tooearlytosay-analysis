@@ -26,6 +26,7 @@ DGP (honest, so the lesson is real not a strawman):
 All results are reproducible from the fixed seed. No data download.
 """
 import json
+import sys
 import numpy as np
 import statsmodels.api as sm
 
@@ -93,13 +94,47 @@ def simulate_compound(rng, jump):
 
 
 def mccrary_z(x, band=0.1):
-    """Simple density-continuity check at the cutoff: counts just left vs just right."""
+    """Simple density-continuity check at the cutoff: counts just left vs right.
+
+    NOTE: this is a two-proportion z-test on counts within `band` of the cutoff.
+    It is NOT the McCrary (2008) local-linear density-discontinuity estimator,
+    despite the function name. Production work should use rddensity.
+    """
     left = np.sum((x >= -band) & (x < 0))
     right = np.sum((x >= 0) & (x < band))
     tot = left + right
     # z for a proportion test against 0.5 (smooth density -> ~equal counts)
     p = right / tot
     return (p - 0.5) / np.sqrt(0.25 / tot), int(left), int(right)
+
+
+
+def verify_estimator(ll_est, ll_mean, naive_q, truth=CUTOFF_LATE):
+    """Fail loudly if the planted truth is not recovered.
+
+    Without this, the script exits 0 no matter what the estimator returns, so a
+    replication package could silently stop demonstrating its own point. Any claim
+    that this artifact fails loudly depends on this function existing.
+    """
+    failures = []
+    if abs(ll_mean - truth) > 0.10:
+        failures.append(
+            f"local-linear 200-draw mean {ll_mean:.3f} is not within 0.10 of the "
+            f"planted {truth}")
+    if abs(ll_est - truth) > 0.30:
+        failures.append(
+            f"local-linear single draw {ll_est:.3f} is not within 0.30 of the "
+            f"planted {truth}")
+    if abs(naive_q - truth) <= abs(ll_mean - truth):
+        failures.append(
+            f"naive global quadratic {naive_q:.3f} is no worse than local-linear "
+            f"{ll_mean:.3f}; the demonstration no longer demonstrates anything")
+    if failures:
+        for f in failures:
+            print(f"VERIFY FAILED: {f}", file=sys.stderr)
+        raise SystemExit(1)
+    print("verify_estimator: OK — local-linear recovers the planted effect, "
+          "naive global does not")
 
 
 def main():
@@ -155,6 +190,8 @@ def main():
         "mccrary_counts": [cl, cr],
         "draws": DRAWS,
     }
+
+    verify_estimator(float(ll_est), ll_mean, naive_q)
 
     print(json.dumps(results, indent=2))
     with open("../data/results.json", "w") as fh:
