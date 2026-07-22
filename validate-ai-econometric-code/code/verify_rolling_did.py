@@ -31,6 +31,20 @@ _spec.loader.exec_module(rdp)
 TRUE_ATT = 1.0
 
 
+def assert_expected_status(name, result, expected):
+    """Fail the runner when a control does not produce its expected status."""
+    for field in ("mean", "mc_se", "bias", "sd"):
+        if not np.isfinite(result[field]):
+            raise AssertionError(f"{name}: non-finite {field} ({result[field]})")
+    passed = result["passed"]
+    if passed != expected:
+        actual_status = "PASS" if passed else "FAIL"
+        expected_status = "PASS" if expected else "FAIL"
+        raise AssertionError(
+            f"{name}: expected {expected_status}, got {actual_status}"
+        )
+
+
 def simulate_hard(true_effect, rng):
     """Hard DGP: 3 treated + 3 control, heterogeneous trends + seasonality.
 
@@ -63,6 +77,8 @@ r_detrend = verify_estimator(estimator_for("detrend"), simulate_hard, TRUE_ATT,
                              tol=0.10, reps=1000)
 report("demean (wrong transform)", r_demean, TRUE_ATT)
 report("detrend (correct)", r_detrend, TRUE_ATT)
+assert_expected_status("demean negative control", r_demean, expected=False)
+assert_expected_status("detrend estimator", r_detrend, expected=True)
 print(f"\ndemean bias {r_demean['bias']:+.3f} is "
       f"{abs(r_demean['bias'])/r_demean['sd']:.1f} per-draw SDs from truth -- "
       f"visible even in a single run.")
@@ -150,3 +166,4 @@ print(f"  Welch t = {t:.2f}, p = {p:.3f}  -> means indistinguishable: the bug "
 print("  The planted-truth test is BLIND to this bug at any seed count.")
 print("  Catch it instead with a within-run invariant: assert the panel you "
       "estimate\n  is the panel this seed generates (independent RNG per stream).")
+print("\nRelease gate: PASS (demean negative control FAIL; detrend estimator PASS)")

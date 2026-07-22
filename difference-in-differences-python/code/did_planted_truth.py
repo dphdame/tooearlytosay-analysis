@@ -32,6 +32,8 @@ Blind spots of THIS harness (quote in the article's Limits):
     weight contamination, NOT an anticipation or parallel-trends violation.
 """
 import json
+from pathlib import Path
+
 import numpy as np
 import statsmodels.api as sm
 
@@ -40,6 +42,7 @@ T = 10                      # periods 0..9
 N_PER = 60                  # units per cohort
 COHORTS = {4: 0.6, 7: 0.3}  # adoption period -> per-period-per-exposure effect slope (early > late)
 DRAWS = 200
+RESULTS_PATH = Path(__file__).resolve().parent.parent / "data" / "results.json"
 
 
 def simulate(rng, cohorts=None, dynamic=True):
@@ -170,9 +173,10 @@ def main():
         "draws": DRAWS,
     }
     print(json.dumps(results, indent=2))
-    with open("../data/results.json", "w") as fh:
+    RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with RESULTS_PATH.open("w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
-    print("\nwrote ../data/results.json")
+    print("\nwrote data/results.json")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Difference-in-differences in Python
 
-Replication materials for ["Difference-in-differences in Python: why the TWFE coefficient can mislead"](https://tooearlytosay.com/research/methodology/difference-in-differences-python/).
+Replication materials for ["Difference-in-Differences in Python: When TWFE Misleads"](https://tooearlytosay.com/research/methodology/difference-in-differences-python/).
 
 ## What it shows
 
@@ -45,8 +45,16 @@ and the not-yet-treated controls can themselves anticipate.
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 python code/did_planted_truth.py         # prints + writes data/results.json
-python code/did_comprehension_figures.py # writes the figure webp/png set
 ```
 
 Seed is fixed (20260705); no data download. Changing which cohort has the larger effect changes the
 size of the downward TWFE bias while the group-time estimator stays on the truth.
+
+## Optional site-maintainer figure workflow
+
+The figure script targets the Too Early To Say site asset workflow. It is not portable replication
+output and is not part of the clean-clone evidence gate.
+
+```bash
+python code/did_comprehension_figures.py # writes the figure webp/png set
+```

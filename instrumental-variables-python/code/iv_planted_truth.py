@@ -31,6 +31,8 @@ Blind spots of THIS harness (quote in the article's Limits):
     but that IS diagnosable from the data, so it is not the limit to dwell on.
 """
 import json
+from pathlib import Path
+
 import numpy as np
 
 SEED = 20260705
@@ -38,6 +40,7 @@ N = 4000
 TAU = 2.0          # planted causal effect of D on Y
 PI = 0.8           # instrument strength (Z -> D)
 DRAWS = 200
+RESULTS_PATH = Path(__file__).resolve().parent.parent / "data" / "results.json"
 
 
 def simulate(rng, pi=PI, exclusion_violation=0.0):
@@ -129,9 +132,10 @@ def main():
         "draws": DRAWS,
     }
     print(json.dumps(results, indent=2))
-    with open("../data/results.json", "w") as fh:
+    RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with RESULTS_PATH.open("w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
-    print("\nwrote ../data/results.json")
+    print("\nwrote data/results.json")
 
 
 if __name__ == "__main__":

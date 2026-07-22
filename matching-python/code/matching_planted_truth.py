@@ -39,7 +39,8 @@ does not change the TRUE target; it only removes the bad-match bias. Everything 
 data/results.json with a fixed seed.
 """
 import json
-import os
+from pathlib import Path
+
 import numpy as np
 import statsmodels.api as sm
 
@@ -49,7 +50,7 @@ TAU = 2.0
 DRAWS = 200
 A_SEL = 2.4
 B_NL = 1.3
-OUT = os.path.join(os.path.dirname(__file__), "..", "data", "results.json")
+RESULTS_PATH = Path(__file__).resolve().parent.parent / "data" / "results.json"
 
 
 def simulate(rng, n=N, unobserved=False):
@@ -264,7 +265,8 @@ def main():
         "hard_smd_crump_after_max_single": round(hard["smd_crump"], 3),
     }
 
-    with open(OUT, "w") as fh:
+    RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with RESULTS_PATH.open("w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2)
 
     print("PLANTED TRUTH (ATT) =", TAU)
@@ -288,7 +290,7 @@ def main():
     print("HARD LIMIT (unobserved confounder U in both D and Y):")
     print(f"  Crump-trimmed match, observed max-SMD {results['hard_smd_crump_after_max_single']}: "
           f"att {results['hard_att_crump_single']}  <- biased, and NO observed diagnostic flags it")
-    print("wrote", os.path.abspath(OUT))
+    print("wrote data/results.json")
 
 
 if __name__ == "__main__":

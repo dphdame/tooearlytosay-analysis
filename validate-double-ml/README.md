@@ -1,6 +1,6 @@
 # Validate Double Machine Learning
 
-Replication materials for ["Plant a known effect before trusting a double machine learning estimate"](https://tooearlytosay.com/research/methodology/validate-double-ml/)
+Replication materials for ["Validating a Double Machine Learning Estimate"](https://tooearlytosay.com/research/methodology/validate-double-ml/)
 
 ## Overview
 
@@ -23,14 +23,16 @@ through a 20-dimensional set of controls:
    attenuation is systematic across many draws, not a single-draw fluke. It comes from fitting `g(X)`
    in-sample and never orthogonalizing `D`, so the regularized fit absorbs treatment-linked variation in
    `X`.
-2. **The limit — close, not exact.** DML recovers ~0.97, not 1.0. The residual is finite-sample noise
-   that shrinks with sample size; the confidence interval covers the truth. Passing means close and
-   consistent on this process, not exact on one draw.
-3. **The limit that matters — an omitted confounder passes unseen.** On a DGP with a hidden confounder
-   `U` that moves both `D` and `Y` and is left out of the controls, DML is biased for the true effect.
-   Yet a planted-truth check built on the **same** (incomplete) control set never generates the
-   confounding, so it reports clean recovery and the omission passes unseen. DML removes regularization
-   bias from the nuisances; it does not manufacture the identifying assumption that `X` is complete.
+2. **The limit — close, not exact.** Across 50 draws, DML recovers about 0.97 rather than 1.0. This
+   package establishes that the mean is within the pre-specified 0.10 tolerance. It does not identify
+   the remaining difference as finite-sample noise or demonstrate that the difference shrinks with
+   sample size; those claims would require a sample-size and coverage study.
+3. **The limit that matters — only a planted omission can be caught.** On the included negative-control
+   DGP, a hidden confounder `U` moves both `D` and `Y` but is left out of the controls, so DML is biased
+   and the runner requires this case to **FAIL**. The check catches the omission only because the DGP
+   explicitly generates it. A validation DGP that never generates the missing `U` cannot establish that
+   a real control set is complete. DML removes regularization bias from the nuisances; it does not
+   manufacture the identifying assumption that `X` is complete.
 
 ## How to Run
 
@@ -42,8 +44,9 @@ python verify_double_ml.py
 ```
 
 The run prints the single reference draw, the many-draw planted-truth check (with PASS/FAIL against the
-planted effect), and the omitted-confounder limit. All numbers are reproducible from fixed seeds; no data
-download is required.
+planted effect), and the omitted-confounder limit. The expected release-gate pattern is naive **FAIL**,
+cross-fitted DML **PASS**, and omitted-confounder **FAIL**; the runner exits nonzero if any status flips.
+All numbers are reproducible from fixed seeds; no data download is required.
 
 ## Files
 
