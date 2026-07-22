@@ -5,8 +5,8 @@ rdd_planted_truth.py. Shows the global quadratic fit overshooting the jump at th
 (reads 1.82) against the local-linear fit (reads 0.87, near the planted 0.75).
 Writes figures/rdd-scatter.png. (The site build converts it to webp.)
 """
-import os
 import json
+from pathlib import Path
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -15,7 +15,10 @@ import statsmodels.api as sm
 
 # CANONICAL jumps: read the SAME results.json the prose cites (rdd_planted_truth.py output), so the
 # figure labels/title cannot drift from the run the article quotes (2026-07-05 red-team D4).
-with open("../data/results.json") as _fh:
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+RESULTS_PATH = PACKAGE_ROOT / "data" / "results.json"
+FIGURES_DIR = PACKAGE_ROOT / "figures"
+with RESULTS_PATH.open(encoding="utf-8") as _fh:
     R = json.load(_fh)
 G, L = R["naive_global_quadratic_single"], R["local_linear_single"]   # 1.82, 0.87
 
@@ -59,6 +62,7 @@ for s in ("top", "right"):
 for s in ("left", "bottom"):
     ax.spines[s].set_color("#c7ccd1")
 plt.tight_layout()
-os.makedirs("figures", exist_ok=True)
-plt.savefig("figures/rdd-scatter.png", dpi=130, bbox_inches="tight")
-print("wrote figures/rdd-scatter.png")
+FIGURES_DIR.mkdir(parents=True, exist_ok=True)
+output_path = FIGURES_DIR / "rdd-scatter.png"
+plt.savefig(output_path, dpi=130, bbox_inches="tight")
+print(f"wrote {output_path}")

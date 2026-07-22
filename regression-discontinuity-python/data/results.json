@@ -1,0 +1,39 @@
+{
+  "source": "rdd_planted_truth.py \u2014 planted-truth sharp RDD, seed 20260704, N=2000",
+  "cutoff_late_truth": 0.75,
+  "treated_average_effect_truth": 1.5,
+  "naive_global_quadratic_single": 1.823,
+  "naive_global_quadratic_mean": 1.877,
+  "order_sweep_single": {
+    "2": 1.823,
+    "3": 0.805,
+    "5": 0.742
+  },
+  "order_sweep_mean": {
+    "2": 1.877,
+    "3": 0.923,
+    "5": 0.767
+  },
+  "local_linear_cv_bandwidth": 0.2,
+  "local_linear_single": 0.872,
+  "local_linear_single_ci": [
+    0.563,
+    1.18
+  ],
+  "local_linear_mean": 0.754,
+  "bandwidth_walk_single": {
+    "0.10": 0.804,
+    "0.20": 0.872,
+    "0.30": 0.863,
+    "0.50": 0.846,
+    "0.75": 1.007,
+    "1.00": 1.315
+  },
+  "compound_treatment_estimate": 1.183,
+  "window_balance_z": 0.549,
+  "window_counts": [
+    102,
+    110
+  ],
+  "draws": 200
+}
