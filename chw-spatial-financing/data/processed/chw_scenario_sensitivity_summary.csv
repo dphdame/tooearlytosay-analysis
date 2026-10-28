@@ -1,0 +1,14 @@
+panel_level,jurisdiction,chw_loaded_cost,p90_tract_span_miles,no_transit_pop_share_pct,scen0_zero_travel_low_pct,scen0_zero_travel_high_pct,scenB1_windshield_only_high_pct,scenB2_var_vehicle_026_high_pct,scenA_base_irs_067_high_pct,scenC_conservative_250v_high_pct,scenD_unchained_360v_high_pct,scen3_clinic_75_patients_pct
+58-County Panel,STATEWIDE,103719,2.82,25.6,6.5,9.8,8.3,7.9,7.2,9.0,6.1,44.9
+58-County Panel,San Francisco,122102,0.61,1.0,5.5,8.3,8.0,8.0,7.8,8.2,7.6,38.1
+58-County Panel,Alameda,105926,1.5,13.2,6.4,9.6,8.7,8.5,8.1,9.1,7.5,44.0
+58-County Panel,Los Angeles,100408,1.14,8.5,6.7,10.1,9.4,9.2,8.9,9.7,8.4,46.4
+58-County Panel,Sacramento,99121,1.54,17.5,6.8,10.3,9.2,8.9,8.5,9.7,7.7,47.0
+58-County Panel,Fresno,92684,4.51,36.4,7.3,11.0,8.6,7.9,6.9,9.6,5.0,50.2
+58-County Panel,Imperial,92684,8.61,59.1,7.3,11.0,7.3,6.2,4.4,8.8,2.0,50.2
+58-County Panel,Tulare,92684,7.05,50.1,7.3,11.0,7.8,6.9,5.5,9.2,2.9,50.2
+58-County Panel,Shasta,92684,16.84,87.8,7.3,11.0,7.3,5.7,3.2,8.2,0.0,50.2
+58-County Panel,Humboldt,92684,15.87,79.8,7.3,11.0,7.3,5.7,3.2,7.9,0.0,50.2
+58-County Panel,Lake,92684,11.84,88.3,7.3,11.0,7.3,5.7,3.2,7.9,0.1,50.2
+58-County Panel,Merced,92684,6.77,50.4,7.3,11.0,7.9,7.1,5.7,9.3,3.2,50.2
+58-County Panel,Modoc,92684,42.45,100.0,7.3,11.0,7.3,5.7,3.2,8.3,0.0,50.2

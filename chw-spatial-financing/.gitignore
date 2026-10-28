@@ -1,0 +1,14 @@
+# Track all reproducibility inputs, processed panels, figures, and QI reports in chw-spatial-financing
+!data/
+!data/**
+!figures/
+!figures/**
+!code/
+!code/**
+!*.csv
+!*.json
+!*.png
+!*.webp
+!*.md
+!*.py
+!*.txt

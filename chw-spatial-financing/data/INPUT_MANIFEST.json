@@ -1,0 +1,13 @@
+{
+  "manifest_purpose": "Verifies byte-level computational reproducibility of packaged local inputs in data/raw/ and documents upstream source provenance and analytical tier for each file.",
+  "inputs": [
+    {
+      "filename": "chw_county_benchmarks_2024.json",
+      "relative_path": "data/raw/chw_county_benchmarks_2024.json",
+      "bytes": 50748,
+      "sha256": "b86f15efd37f648a31ff76ddc5d875606af9478bb91228151df05a0c18677c71",
+      "analytical_tier": "Tier 1 (HCAI PQI 90/91/92/93 & DHCS Medi-Cal eligibles) + Tier 2 (Constructed County CHW Cost & Caseload Benchmarks)",
+      "upstream_source": "CAPHE 58-County Benchmark Database (/Users/vserver/code/CAPHE/data/chw_county_benchmarks_2024.json), compiled from HCAI Prevention Quality Indicators, BLS QCEW 2024, MIT Living Wage schedules, and DHCS Medi-Cal tables."
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "project": "TETS Article #4A: CHW Spatial-Fiscal Analysis (58 Counties & Santa Clara Corridors)",
+  "timestamp_utc": "2026-10-28T05:27:33.968295+00:00",
+  "verification_method": "Programmatic Matplotlib renderer bounding-box collision audit + WCAG 2.1 luminance contrast check + PIL pixel inspection",
+  "clean_figures_compliance": true,
+  "overall_verdict": "PASS",
+  "figures": [
+    {
+      "figure_id": "fig1_58_county_wage_distance_squeeze",
+      "png_path": "figures/fig1_58_county_wage_distance_squeeze.png",
+      "dimensions_px": [
+        2016,
+        2736
+      ],
+      "dpi": [
+        240.0,
+        240.0
+      ],
+      "non_white_ink_fraction": 0.088,
+      "embedded_title_or_footer": false,
+      "checked_text_objects": 75,
+      "text_collision_count": 0,
+      "text_collisions": [],
+      "out_of_bounds_text_count": 0,
+      "out_of_bounds_texts": [],
+      "zero_text_collisions": true,
+      "wcag_text_contrast": {
+        "ink": {
+          "hex": "#0F172A",
+          "contrast_vs_white": 17.85,
+          "pass_aa_4_5": true
+        },
+        "slate": {
+          "hex": "#334155",
+          "contrast_vs_white": 10.35,
+          "pass_aa_4_5": true
+        },
+        "teal": {
+          "hex": "#136F63",
+          "contrast_vs_white": 6.03,
+          "pass_aa_4_5": true
+        },
+        "coral": {
+          "hex": "#B93829",
+          "contrast_vs_white": 5.74,
+          "pass_aa_4_5": true
+        }
+      },
+      "wcag_series_contrast": {
+        "teal": {
+          "hex": "#136F63",
+          "contrast_vs_white": 6.03,
+          "pass_nontext_3_0": true
+        },
+        "blue": {
+          "hex": "#1D4E89",
+          "contrast_vs_white": 8.39,
+          "pass_nontext_3_0": true
+        },
+        "amber": {
+          "hex": "#B45309",
+          "contrast_vs_white": 5.02,
+          "pass_nontext_3_0": true
+        },
+        "coral": {
+          "hex": "#B93829",
+          "contrast_vs_white": 5.74,
+          "pass_nontext_3_0": true
+        }
+      },
+      "wcag_contrast_pass": true,
+      "verdict": "PASS",
+      "webp_path": "figures/fig1_58_county_wage_distance_squeeze.webp",
+      "double_encoded_series": true
+    },
+    {
+      "figure_id": "fig2_santa_clara_corridor_divergence",
+      "png_path": "figures/fig2_santa_clara_corridor_divergence.png",
+      "dimensions_px": [
+        2016,
+        2304
+      ],
+      "dpi": [
+        240.0,
+        240.0
+      ],
+      "non_white_ink_fraction": 0.1818,
+      "embedded_title_or_footer": false,
+      "checked_text_objects": 49,
+      "text_collision_count": 0,
+      "text_collisions": [],
+      "out_of_bounds_text_count": 0,
+      "out_of_bounds_texts": [],
+      "zero_text_collisions": true,
+      "wcag_text_contrast": {
+        "ink": {
+          "hex": "#0F172A",
+          "contrast_vs_white": 17.85,
+          "pass_aa_4_5": true
+        },
+        "slate": {
+          "hex": "#334155",
+          "contrast_vs_white": 10.35,
+          "pass_aa_4_5": true
+        },
+        "blue": {
+          "hex": "#1D4E89",
+          "contrast_vs_white": 8.39,
+          "pass_aa_4_5": true
+        },
+        "amber": {
+          "hex": "#B45309",
+          "contrast_vs_white": 5.02,
+          "pass_aa_4_5": true
+        },
+        "teal": {
+          "hex": "#136F63",
+          "contrast_vs_white": 6.03,
+          "pass_aa_4_5": true
+        },
+        "coral": {
+          "hex": "#B93829",
+          "contrast_vs_white": 5.74,
+          "pass_aa_4_5": true
+        }
+      },
+      "wcag_series_contrast": {
+        "teal": {
+          "hex": "#136F63",
+          "contrast_vs_white": 6.03,
+          "pass_nontext_3_0": true
+        },
+        "blue": {
+          "hex": "#1D4E89",
+          "contrast_vs_white": 8.39,
+          "pass_nontext_3_0": true
+        },
+        "amber": {
+          "hex": "#B45309",
+          "contrast_vs_white": 5.02,
+          "pass_nontext_3_0": true
+        },
+        "coral": {
+          "hex": "#B93829",
+          "contrast_vs_white": 5.74,
+          "pass_nontext_3_0": true
+        }
+      },
+      "wcag_contrast_pass": true,
+      "verdict": "PASS",
+      "webp_path": "figures/fig2_santa_clara_corridor_divergence.webp",
+      "double_encoded_series": true
+    }
+  ]
+}

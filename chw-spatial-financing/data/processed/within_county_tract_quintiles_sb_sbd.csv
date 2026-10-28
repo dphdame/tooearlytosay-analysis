@@ -1,0 +1,11 @@
+county_name,quintile,tract_count,population,median_density_sqmi,no_transit_share_pct,round_trip_miles,travel_minutes_per_visit,windshield_loss_pct,loaded_chw_cost,gross_ffs_rev_high,annual_irs_mileage_cost,net_ffs_rev_irs_high,net_ffs_rev_var_high,net_coverage_irs_pct,net_coverage_var_pct,annual_funding_gap_irs
+San Bernardino,Q1 (Dense Urban Core),94,481540,9279.1,0.0,1.6,4.5,4.8,92684,9679,353,9326,9542,10.1,10.3,83358
+San Bernardino,Q2 (Inner Suburban),93,467520,6549.9,0.0,2.0,5.5,5.7,92684,9581,441,9140,9410,9.9,10.2,83544
+San Bernardino,Q3 (Outer Suburban),93,458023,4182.1,0.0,2.5,6.7,6.8,92684,9468,549,8919,9255,9.6,10.0,83765
+San Bernardino,Q4 (Exurban / Foothill),93,448412,1762.2,98.0,3.9,9.9,9.6,92684,9183,855,8328,8851,9.0,9.5,84356
+San Bernardino,Q5 (Remote Desert / Rural),93,332321,227.5,100.0,17.4,37.0,25.9,92684,7527,3817,3711,6046,4.0,6.5,88973
+Santa Barbara,Q1 (Dense Urban Core),22,101619,14112.4,0.0,1.2,3.6,3.8,95258,9773,273,9500,9667,10.0,10.1,85758
+Santa Barbara,Q2 (Inner Suburban),21,99419,6816.7,0.0,1.9,5.3,5.5,95258,9604,420,9184,9441,9.6,9.9,86074
+Santa Barbara,Q3 (Outer Suburban),21,96738,4279.8,0.0,2.5,6.6,6.7,95258,9478,539,8939,9269,9.4,9.7,86319
+Santa Barbara,Q4 (Exurban / Foothill),21,78225,1885.8,86.8,3.7,9.4,9.2,95258,9226,805,8421,8914,8.8,9.4,86837
+Santa Barbara,Q5 (Remote Desert / Rural),22,67974,50.3,100.0,14.8,32.1,23.7,95258,7755,3249,4505,6494,4.7,6.8,90753
