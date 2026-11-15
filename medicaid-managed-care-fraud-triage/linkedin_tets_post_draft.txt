@@ -1,13 +1,13 @@
-Capitated Medicaid plans receive a fixed monthly payment per enrollee and bear claims risk. A common policy view holds that private plans screen out provider fraud and boost state convictions.
+When a panel regression on a final outcome returns no detectable association, the aggregate slope alone cannot tell us where the production funnel varies.
 
-When we pair 15 years of state Medicaid Fraud Control Unit records with federal managed care series across all 50 states and DC, two findings stand out:
+When we write the outcome as a product of stage ratios and take natural logs, cross-unit variance becomes an exact covariance split that sums to 100%.
+
+Applying that diagnostic to 15 years of state Medicaid fraud records separates two findings:
 
 1. Within states, expanding managed care enrollment shows no detectable association with convictions per staff-year at state-year precision.
 
-2. Across states, a descriptive three-stage accounting identity shows that case-to-indictment triage accounts for 75.4% of conviction variance, while state units open cases on just 23% of plan referrals.
+2. Across states, a descriptive three-stage log-variance accounting identity shows that case-to-indictment triage accounts for 75.4% of log conviction variance, while state units open cases on 23% of plan referrals.
 
-That gap points to a testable hypothesis around referral documentation standards and forensic triage capacity.
-
-Where do you see the main friction between plan audits and state prosecutors?
+Stopping at the aggregate panel slope misses where dispersion sits; decomposing the funnel locates the stage where referral rules and triage capacity can be tested.
 
 https://tooearlytosay.com/research/health-policy/medicaid-managed-care-fraud-triage/
