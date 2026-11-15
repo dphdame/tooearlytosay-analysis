@@ -1,0 +1,5 @@
+Specification,Sample Size (State-Years),Estimate / Correlation,SE / p-value,95% CI on 10pp Shift (% of Mean),Empirical Verdict
+"Cross-sectional (Enrollment Era, 2010–2015)",300 (50 units),r = +0.16,p = 0.270,--,Null
+"Cross-sectional (Expenditure Era, 2016–2024)",455 (51 units),r = -0.18,p = 0.210,--,Null
+"Two-Way Fixed Effects (TWFE, 2010–2024)",755 (51 units),beta = +0.28,SE = 0.19 (p = 0.152),"[-1.2%, +7.9%]",Null (Bounded <=8% of mean)
+First Differences (2017–2024),405 (51 units),beta = +0.34,SE = 0.34 (p = 0.320),"[-3.9%, +12.0%]",Null

@@ -1,0 +1,173 @@
+{
+  "twfe_tot_comp": {
+    "n": 443,
+    "units": 51,
+    "mean_y": 0.805,
+    "beta": -0.007,
+    "se": 0.311,
+    "p": 0.981,
+    "ci10pp_lo_pct": -7.7,
+    "ci10pp_hi_pct": 7.5
+  },
+  "fd_tot_comp": {
+    "n": 392,
+    "units": 51,
+    "mean_y": 0.798,
+    "beta": 0.29,
+    "se": 0.342,
+    "p": 0.401,
+    "ci10pp_lo_pct": -4.8,
+    "ci10pp_hi_pct": 12.0
+  },
+  "twfe_fraud_comp": {
+    "n": 443,
+    "units": 51,
+    "mean_y": 0.553,
+    "beta": -0.031,
+    "se": 0.189,
+    "p": 0.87,
+    "ci10pp_lo_pct": -7.3,
+    "ci10pp_hi_pct": 6.1
+  },
+  "fd_fraud_comp": {
+    "n": 392,
+    "units": 51,
+    "mean_y": 0.548,
+    "beta": 0.095,
+    "se": 0.265,
+    "p": 0.721,
+    "ci10pp_lo_pct": -7.8,
+    "ci10pp_hi_pct": 11.2
+  },
+  "twfe_fcases_comp": {
+    "n": 443,
+    "units": 51,
+    "mean_y": 10.088,
+    "beta": 1.319,
+    "se": 2.31,
+    "p": 0.571,
+    "ci10pp_lo_pct": -3.2,
+    "ci10pp_hi_pct": 5.8
+  },
+  "twfe_tot_any": {
+    "n": 451,
+    "units": 51,
+    "mean_y": 0.8,
+    "beta": -0.569,
+    "se": 0.525,
+    "p": 0.283,
+    "ci10pp_lo_pct": -20.0,
+    "ci10pp_hi_pct": 5.7
+  },
+  "decomp_50_all": {
+    "cases_per_staff": {
+      "ratio": 12.2,
+      "cv": 0.54,
+      "log_var_share_pct": 24.6,
+      "r": 0.37,
+      "p": 0.0076
+    },
+    "indict_per_case": {
+      "ratio": 28.2,
+      "cv": 0.72,
+      "log_var_share_pct": 75.4,
+      "r": 0.58,
+      "p": 0.0
+    },
+    "conv_per_indict": {
+      "ratio": 2.2,
+      "cv": 0.15,
+      "log_var_share_pct": -0.0,
+      "r": -0.04,
+      "p": 0.7806
+    },
+    "conv_per_case": {
+      "ratio": 21.7,
+      "cv": 0.68,
+      "log_var_share_pct": 75.4,
+      "r": 0.59,
+      "p": 0.0
+    },
+    "conv_per_staff": {
+      "ratio": 17.9,
+      "cv": 0.78,
+      "log_var_share_pct": 100.0,
+      "r": 1.0,
+      "p": 0.0
+    }
+  },
+  "decomp_51_all": {
+    "cases_per_staff": {
+      "ratio": 12.2,
+      "cv": 0.53,
+      "log_var_share_pct": 20.7,
+      "r": 0.38,
+      "p": 0.0066
+    },
+    "indict_per_case": {
+      "ratio": 28.2,
+      "cv": 0.72,
+      "log_var_share_pct": 67.8,
+      "r": 0.59,
+      "p": 0.0
+    },
+    "conv_per_indict": {
+      "ratio": 5.2,
+      "cv": 0.18,
+      "log_var_share_pct": 11.5,
+      "r": 0.06,
+      "p": 0.6906
+    },
+    "conv_per_case": {
+      "ratio": 31.4,
+      "cv": 0.7,
+      "log_var_share_pct": 79.3,
+      "r": 0.6,
+      "p": 0.0
+    },
+    "conv_per_staff": {
+      "ratio": 45.9,
+      "cv": 0.79,
+      "log_var_share_pct": 100.0,
+      "r": 1.0,
+      "p": 0.0
+    }
+  },
+  "decomp_50_fraud": {
+    "cases_per_staff": {
+      "ratio": 13.0,
+      "cv": 0.59,
+      "log_var_share_pct": 19.0,
+      "r": 0.2,
+      "p": 0.1617
+    },
+    "indict_per_case": {
+      "ratio": 57.1,
+      "cv": 0.81,
+      "log_var_share_pct": 84.2,
+      "r": 0.73,
+      "p": 0.0
+    },
+    "conv_per_indict": {
+      "ratio": 2.4,
+      "cv": 0.16,
+      "log_var_share_pct": -3.2,
+      "r": -0.18,
+      "p": 0.2011
+    },
+    "conv_per_case": {
+      "ratio": 38.6,
+      "cv": 0.77,
+      "log_var_share_pct": 81.0,
+      "r": 0.72,
+      "p": 0.0
+    },
+    "conv_per_staff": {
+      "ratio": 13.1,
+      "cv": 0.77,
+      "log_var_share_pct": 100.0,
+      "r": 1.0,
+      "p": 0.0
+    }
+  }
+}
