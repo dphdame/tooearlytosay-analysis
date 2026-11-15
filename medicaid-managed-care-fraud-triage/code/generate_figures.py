@@ -23,19 +23,26 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 from PIL import Image
 
-SITE = Path("/Users/vserver/code/tooearlytosay-work")
+SITE = ROOT.parent / "tooearlytosay-work"
 SLUG = "medicaid-managed-care-fraud-triage"
-DESTS = [
-    SITE / "public/images/health-policy" / SLUG,
-    SITE / "drafts" / f"img_{SLUG}",
-]
-
-spec = importlib.util.spec_from_file_location(
-    "figure_overlap_check", Path.home() / ".claude/scripts/figure_overlap_check.py"
+DESTS = (
+    [
+        SITE / "public/images/health-policy" / SLUG,
+        SITE / "drafts" / f"img_{SLUG}",
+    ]
+    if SITE.exists()
+    else []
 )
-overlap_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(overlap_module)
-check_overlaps = overlap_module.check_overlaps
+
+_overlap_script = Path.home() / ".claude/scripts/figure_overlap_check.py"
+if _overlap_script.exists():
+    spec = importlib.util.spec_from_file_location("figure_overlap_check", _overlap_script)
+    overlap_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(overlap_module)
+    check_overlaps = overlap_module.check_overlaps
+else:
+    def check_overlaps(fig, name):
+        return []
 
 BLUE = "#0072B2"
 TEAL = "#00796B"
@@ -175,8 +182,8 @@ def make_figure1_twfe_forest() -> None:
     fig, ax = plt.subplots(figsize=(8.4, 5.1))
     fig.subplots_adjust(left=0.39, right=0.96, top=0.84, bottom=0.15)
     fig.suptitle(
-        "Within-State Managed Care Shifts Show Near-Zero Enforcement Effects",
-        x=0.03, ha="left", y=0.95, va="top", fontsize=13.2, weight="bold", color=INK,
+        "Within-State Managed Care Shifts Show No Detectable Conviction Gain",
+        x=0.03, ha="left", y=0.95, va="top", fontsize=12.8, weight="bold", color=INK,
     )
 
     y_positions = np.arange(len(specs))[::-1]
@@ -212,8 +219,8 @@ def make_figure2_variance_decomposition() -> None:
     fig, ax = plt.subplots(figsize=(8.4, 4.8))
     fig.subplots_adjust(left=0.36, right=0.95, top=0.76, bottom=0.16)
     fig.suptitle(
-        "Stage 2 Investigative Triage Governs Cross-State Conviction Variance",
-        x=0.03, ha="left", y=0.95, va="top", fontsize=13.2, weight="bold", color=INK,
+        "Stage 2 Triage Accounts for Cross-State Conviction Variance",
+        x=0.03, ha="left", y=0.95, va="top", fontsize=12.8, weight="bold", color=INK,
     )
 
     y = np.arange(len(stages))[::-1]

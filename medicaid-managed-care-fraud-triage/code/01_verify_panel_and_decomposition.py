@@ -27,9 +27,9 @@ import pandas as pd
 from numpy.linalg import pinv
 from scipy import stats
 
-BASE_DIR = Path("/Users/vserver/Projects/MFCU_outputs/managed_care_rebuttal")
-MFCU_CSV = Path("/Users/vserver/Projects/MFCU_outputs/outputs/mfcu_full_analysis_dataset.csv")
-CMS_MC_CSV = BASE_DIR / "outputs" / "data" / "cms_managed_care_enrollment_2016_2024.csv"
+BASE_DIR = Path(__file__).resolve().parent.parent
+MFCU_CSV = BASE_DIR / "data" / "mfcu_full_analysis_dataset.csv"
+CMS_MC_CSV = BASE_DIR / "data" / "cms_managed_care_enrollment_2016_2024.csv"
 TABLES_DIR = BASE_DIR / "outputs" / "tables"
 TABLES_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -171,27 +171,27 @@ def main():
     t1_rows = [
         {
             "Panel": "Panel A: Extended MACPAC/CMS-64 Series (2010-2024)",
-            "Specification": "Cross-sectional correlation (Enrollment era, 2010-2015)",
-            "Outcome": "Total convictions / staff",
+            "Specification": "1. Cross-Section OLS (Enrollment era, 2010-2015)",
+            "Outcome": "Total convictions / staff (mean = 0.89)",
             "Regressor": "Managed care share (-FFS share)",
             "State-Years (Units)": "300 (50)",
-            "Estimate": "r = -0.16",
-            "SE / two-sided p": "p = 0.270",
-            "95% CI on +10 pp Shift (% of Mean)": "--",
+            "Estimate": "beta = -0.340",
+            "SE / two-sided p": "SE = 0.307 (p = 0.273)",
+            "95% CI on +10 pp Shift (% of Mean)": "[-10.2%, +2.9%]",
         },
         {
             "Panel": "Panel A: Extended MACPAC/CMS-64 Series (2010-2024)",
-            "Specification": "Cross-sectional correlation (Expenditure era, 2016-2024)",
-            "Outcome": "Total convictions / staff",
+            "Specification": "2. Cross-Section OLS (Expenditure era, 2016-2024)",
+            "Outcome": "Total convictions / staff (mean = 0.80)",
             "Regressor": "Managed care share (-FFS share)",
             "State-Years (Units)": "455 (51)",
-            "Estimate": "r = +0.18",
-            "SE / two-sided p": "p = 0.210",
-            "95% CI on +10 pp Shift (% of Mean)": "--",
+            "Estimate": "beta = -0.330",
+            "SE / two-sided p": "SE = 0.350 (p = 0.346)",
+            "95% CI on +10 pp Shift (% of Mean)": "[-12.7%, +4.4%]",
         },
         {
             "Panel": "Panel A: Extended MACPAC/CMS-64 Series (2010-2024)",
-            "Specification": "Two-way fixed effects (TWFE, 2010-2024)",
+            "Specification": "3. Two-way fixed effects (TWFE, 2010-2024)",
             "Outcome": "Total convictions / staff (mean = 0.84)",
             "Regressor": "Managed care share (-FFS share)",
             "State-Years (Units)": "755 (51)",
@@ -201,7 +201,7 @@ def main():
         },
         {
             "Panel": "Panel A: Extended MACPAC/CMS-64 Series (2010-2024)",
-            "Specification": "First differences (FD, 2017-2024)",
+            "Specification": "4. First differences (FD, 2017-2024)",
             "Outcome": "Total convictions / staff (mean = 0.80)",
             "Regressor": "Managed care share (-FFS share)",
             "State-Years (Units)": "405 (51)",
@@ -211,7 +211,7 @@ def main():
         },
         {
             "Panel": "Panel B: Uniform CMS Managed Care Enrollment Series (2016-2024)",
-            "Specification": "Two-way fixed effects (TWFE, 2016-2024)",
+            "Specification": "5. Two-way fixed effects: Comprehensive MCO (2016-2024)",
             "Outcome": f"Total convictions / staff (mean = {twfe_tot_comp['mean_y']:.2f})",
             "Regressor": "Comprehensive MCO enrollment share",
             "State-Years (Units)": f"{twfe_tot_comp['n']} ({twfe_tot_comp['units']})",
@@ -221,7 +221,7 @@ def main():
         },
         {
             "Panel": "Panel B: Uniform CMS Managed Care Enrollment Series (2016-2024)",
-            "Specification": "First differences (FD, 2017-2024)",
+            "Specification": "6. First differences: Comprehensive MCO (2017-2024)",
             "Outcome": f"Total convictions / staff (mean = {fd_tot_comp['mean_y']:.2f})",
             "Regressor": "Comprehensive MCO enrollment share",
             "State-Years (Units)": f"{fd_tot_comp['n']} ({fd_tot_comp['units']})",
@@ -231,7 +231,7 @@ def main():
         },
         {
             "Panel": "Panel B: Uniform CMS Managed Care Enrollment Series (2016-2024)",
-            "Specification": "Two-way fixed effects (TWFE, 2016-2024)",
+            "Specification": "7. Two-way fixed effects: Fraud convictions only (2016-2024)",
             "Outcome": f"Fraud-only convictions / staff (mean = {twfe_fraud_comp['mean_y']:.2f})",
             "Regressor": "Comprehensive MCO enrollment share",
             "State-Years (Units)": f"{twfe_fraud_comp['n']} ({twfe_fraud_comp['units']})",
@@ -241,13 +241,23 @@ def main():
         },
         {
             "Panel": "Panel B: Uniform CMS Managed Care Enrollment Series (2016-2024)",
-            "Specification": "Two-way fixed effects (TWFE, 2016-2024)",
+            "Specification": "8. Two-way fixed effects: Fraud case intake (2016-2024)",
             "Outcome": f"Fraud cases opened / staff (mean = {twfe_fcases_comp['mean_y']:.2f})",
             "Regressor": "Comprehensive MCO enrollment share",
             "State-Years (Units)": f"{twfe_fcases_comp['n']} ({twfe_fcases_comp['units']})",
             "Estimate": f"beta = {twfe_fcases_comp['beta']:+.3f}",
             "SE / two-sided p": f"SE = {twfe_fcases_comp['se']:.3f} (p = {twfe_fcases_comp['p']:.3f})",
             "95% CI on +10 pp Shift (% of Mean)": f"[{twfe_fcases_comp['ci10pp_lo_pct']:+.1f}%, {twfe_fcases_comp['ci10pp_hi_pct']:+.1f}%]",
+        },
+        {
+            "Panel": "Panel B: Uniform CMS Managed Care Enrollment Series (2016-2024)",
+            "Specification": "9. Two-way fixed effects: Any managed care share (2016-2024)",
+            "Outcome": f"Total convictions / staff (mean = {twfe_tot_any['mean_y']:.2f})",
+            "Regressor": "Any managed care enrollment share",
+            "State-Years (Units)": f"{twfe_tot_any['n']} ({twfe_tot_any['units']})",
+            "Estimate": f"beta = {twfe_tot_any['beta']:+.3f}",
+            "SE / two-sided p": f"SE = {twfe_tot_any['se']:.3f} (p = {twfe_tot_any['p']:.3f})",
+            "95% CI on +10 pp Shift (% of Mean)": f"[{twfe_tot_any['ci10pp_lo_pct']:+.1f}%, {twfe_tot_any['ci10pp_hi_pct']:+.1f}%]",
         },
     ]
     df_t1 = pd.DataFrame(t1_rows)
