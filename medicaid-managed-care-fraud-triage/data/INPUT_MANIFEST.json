@@ -1,0 +1,21 @@
+{
+  "package": "medicaid-managed-care-fraud-triage",
+  "article_url": "https://tooearlytosay.com/research/health-policy/medicaid-managed-care-fraud-triage/",
+  "ssrn_abstract_id": "7710301",
+  "inputs": [
+    {
+      "file": "data/mfcu_full_analysis_dataset.csv",
+      "bytes": 281015,
+      "sha256": "a3a96135773ec53da9d57af61074814cc7c174870d56caae1523283180810c46",
+      "provenance": "U.S. Department of Health and Human Services, Office of Inspector General (HHS OIG), Medicaid Fraud Control Units Annual Statistical Reports and Chart Panels, FY 2006-2024 (51 U.S. jurisdictions excluding Puerto Rico in 2010-2024 analysis panel, N = 755 state-years).",
+      "official_source_url": "https://oig.hhs.gov/reports-and-publications/medicaid-fraud-control-units-mfcu/"
+    },
+    {
+      "file": "data/cms_managed_care_enrollment_2016_2024.csv",
+      "bytes": 37383,
+      "sha256": "07420eea5ca092a4bfec114f06dab4601e7e1f30ad0592101302bf60092a8410",
+      "provenance": "Centers for Medicare & Medicaid Services (CMS), Medicaid Managed Care Enrollment and Program Characteristics Summary Table 1 (Total Medicaid Enrollees, Any Managed Care, and Comprehensive Risk-Based MCO Enrollment by State and Year, 2016-2024, N = 443 state-years for comprehensive MCO share and N = 451 for any managed care share).",
+      "official_source_url": "https://www.medicaid.gov/medicaid/managed-care/enrollment-report/index.html"
+    }
+  ]
+}
