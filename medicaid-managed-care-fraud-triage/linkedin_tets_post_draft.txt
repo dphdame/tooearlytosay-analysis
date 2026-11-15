@@ -2,12 +2,12 @@ When a panel regression on a final outcome returns no detectable association, th
 
 When we write the outcome as a product of stage ratios and take natural logs, cross-unit variance becomes an exact covariance split that sums to 100%.
 
-Applying that diagnostic to 15 years of state Medicaid fraud records separates two findings:
+Applying that diagnostic to state Medicaid fraud enforcement records separates two analyses:
 
-1. Within states, expanding managed care enrollment shows no detectable association with convictions per staff-year at state-year precision.
+1. Within states, expanding managed care shows no detectable association with convictions per staff-year at state-year precision across both the 2010 to 2024 harmonized panel and the 2016 to 2024 comprehensive enrollment panel.
 
-2. Across states, a descriptive three-stage log-variance accounting identity shows that case-to-indictment triage accounts for 75.4% of log conviction variance, while state units open cases on 23% of plan referrals.
+2. Across states over 2010 to 2024, a descriptive three-stage log-variance accounting identity shows that case-to-indictment triage accounts for 75.4% of log conviction variance.
 
-Stopping at the aggregate panel slope misses where dispersion sits; decomposing the funnel locates the stage where referral rules and triage capacity can be tested.
+Because that covariance split is descriptive, it does not prove why conversion varies, but it locates the stage where hypotheses about referral standards and triage capacity can be tested.
 
 https://tooearlytosay.com/research/health-policy/medicaid-managed-care-fraud-triage/
