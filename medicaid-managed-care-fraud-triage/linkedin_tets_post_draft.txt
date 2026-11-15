@@ -1,11 +1,13 @@
-Private Medicaid managed care plans now cover three-quarters of enrollees nationwide. Because plans receive fixed monthly capitation payments, a standard policy view holds that private plans screen out provider fraud and boost state enforcement output.
+What a public enforcement rate measures depends on how upstream contractors and state prosecutors divide the pipeline. Because capitated Medicaid plans receive fixed monthly payments and bear claims risk, a standard policy view holds that private plans screen out provider billing fraud and raise state conviction output.
 
-When we pair 15 years of state Medicaid Fraud Control Unit records with federal managed care series across 51 jurisdictions (755 state-years, FY 2010 to 2024), within-state managed care expansions show no detectable association with convictions per staff-year (slope = -0.007, p = 0.981, 95% CI [-7.7%, +7.5%] per +10 pp).
+When we pair state Medicaid Fraud Control Unit records with federal managed care series across all U.S. states, two patterns stand out:
 
-Yet convictions per staff-year vary 17.9-fold across states. In a descriptive three-stage log-variance accounting identity, Stage 2 triage (indictments per opened case) accounts for 75.4% of cross-state variance overall and 84.2% for fraud-only cases.
+1. Within states, expanding managed care enrollment shows no detectable association with convictions per staff-year at state-year precision.
 
-In FY 2024, state units opened cases on only 23% of plan referrals, pointing to a testable hypothesis around referral rules and triage capacity.
+2. Across states, a descriptive three-stage log-variance accounting identity shows that investigative triage (indictments per opened case) accounts for 75.4% of cross-state conviction variance, while state units open cases on only 23% of plan referrals.
 
-Where do you see the main friction between plan audits and state prosecutors?
+That pattern points to a testable hypothesis around referral documentation floors and forensic triage capacity.
+
+Where do you see the main friction between private plan audits and public prosecutors?
 
 https://tooearlytosay.com/research/health-policy/medicaid-managed-care-fraud-triage/
