@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 from PIL import Image
 
-SITE = ROOT.parent / "tooearlytosay-work"
+SITE = Path("/Users/vserver/code/tooearlytosay-work")
 SLUG = "medicaid-managed-care-fraud-triage"
 DESTS = (
     [
@@ -199,11 +199,212 @@ def make_figure1_twfe_forest() -> None:
     ax.set_yticklabels([s[0] for s in specs], fontsize=10.2)
     ax.set_xlim(-22.5, 15.0)
     ax.set_ylim(-0.6, len(specs) - 0.3)
-    ax.set_xlabel("Implied % change in mean outcome per +10 pp managed care share (95% CI)", fontsize=11.0)
+    ax.set_xlabel("Implied % change in mean outcome per +10 pp MCO share (95% CI)", fontsize=10.8)
     ax.grid(axis="x", color="#E4E7EA", linewidth=0.7)
     ax.set_axisbelow(True)
 
     save(fig, name)
+
+
+def make_cover_art() -> None:
+    """Generate 1800x1012 editorial cover art (cover.png & cover.webp, zero text)
+    matching the TETS Health Policy visual series (#FDF7F4 cream canvas, #264653
+    double border, and three-stage triage bottleneck geometry).
+    """
+    cream = "#FDF7F4"
+    deep_teal = "#264653"
+    inner_border = "#49636D"
+    teal = "#2A9D8F"
+    coral = "#E76F51"
+    gold = "#F4A261"
+    soft_sand = "#F5EBE4"
+
+    fig = plt.figure(figsize=(18.0, 10.12), dpi=100, facecolor=cream)
+    ax = fig.add_axes([0, 0, 1, 1], facecolor=cream)
+    ax.set_xlim(0, 1800)
+    ax.set_ylim(0, 1012)
+    ax.axis("off")
+
+    # Background fill
+    ax.add_patch(plt.Rectangle((0, 0), 1800, 1012, facecolor=cream, edgecolor="none", zorder=0))
+
+    # Subtle stage background panels inside the inner frame
+    ax.add_patch(plt.Rectangle((120, 140), 470, 732, facecolor=soft_sand, edgecolor="none", alpha=0.45, zorder=1))
+    ax.add_patch(plt.Rectangle((650, 140), 500, 732, facecolor="#FBF0EA", edgecolor="none", alpha=0.55, zorder=1))
+    ax.add_patch(plt.Rectangle((1210, 140), 470, 732, facecolor="#EEF6F5", edgecolor="none", alpha=0.55, zorder=1))
+
+    # Subtle horizontal reference grid lines across the three stages
+    for gy in np.linspace(210, 802, 7):
+        ax.plot([120, 1680], [gy, gy], color="#E5DCD5", linewidth=1.0, zorder=1)
+
+    # Vertical dashed stage dividers (Stage 1 -> Stage 2 -> Stage 3)
+    for div_x in (620, 1180):
+        ax.plot([div_x, div_x], [115, 897], color=deep_teal, linestyle=(0, (4, 5)), linewidth=2.2, alpha=0.75, zorder=3)
+
+    # Central Stage 2 investigative triage bottleneck aperture (architectural gate)
+    gate_x = 900
+    # Upper and lower coral/deep-teal barrier blocks forming the narrow central aperture
+    # Aperture opening: y in [416, 596] (180 px high out of 660 px intake span)
+    ax.add_patch(
+        FancyBboxPatch(
+            (gate_x - 26, 612), 52, 240,
+            boxstyle="round,pad=0,rounding_size=8",
+            facecolor=deep_teal, edgecolor=deep_teal, linewidth=2.0, zorder=5,
+        )
+    )
+    ax.add_patch(
+        FancyBboxPatch(
+            (gate_x - 26, 160), 52, 240,
+            boxstyle="round,pad=0,rounding_size=8",
+            facecolor=deep_teal, edgecolor=deep_teal, linewidth=2.0, zorder=5,
+        )
+    )
+    # Coral accent plates on the inner lips of the triage gate
+    ax.add_patch(
+        FancyBboxPatch(
+            (gate_x - 32, 598), 64, 18,
+            boxstyle="round,pad=0,rounding_size=4",
+            facecolor=coral, edgecolor=deep_teal, linewidth=1.8, zorder=6,
+        )
+    )
+    ax.add_patch(
+        FancyBboxPatch(
+            (gate_x - 32, 396), 64, 18,
+            boxstyle="round,pad=0,rounding_size=4",
+            facecolor=coral, edgecolor=deep_teal, linewidth=1.8, zorder=6,
+        )
+    )
+
+    # Glowing gold/teal focus ring inside the triage aperture
+    aperture_ring = plt.Circle((gate_x, 506), 72, facecolor=gold, edgecolor=coral, linewidth=2.2, alpha=0.22, zorder=2)
+    ax.add_patch(aperture_ring)
+
+    # 16 intake streams entering Stage 1 on the left (y from 196 to 816)
+    n_streams = 16
+    y_starts = np.linspace(196, 816, n_streams)
+    # Middle 4 streams (indices 6, 7, 8, 9) pass through the Stage 2 triage gate and become indictments/convictions
+    pass_indices = {6, 7, 8, 9}
+    y_pass_targets = {
+        6: 452.0,
+        7: 488.0,
+        8: 524.0,
+        9: 560.0,
+    }
+    y_stage3_ends = {
+        6: 410.0,
+        7: 474.0,
+        8: 538.0,
+        9: 602.0,
+    }
+
+    for idx, y0 in enumerate(y_starts):
+        # Stage 1: Left intake node + horizontal stream from x=150 to x=620
+        is_passing = idx in pass_indices
+        s1_color = teal if is_passing else ("#3B5B6C" if idx % 2 == 0 else "#6B828E")
+        s1_lw = 4.2 if is_passing else 2.6
+        s1_alpha = 0.98 if is_passing else 0.72
+
+        # Intake origin circle
+        ax.scatter([155], [y0], s=70 if is_passing else 42, facecolor=gold if is_passing else cream,
+                   edgecolor=s1_color, linewidth=2.2, zorder=6)
+
+        # Stage 1 curve (155 -> 620)
+        x_s1 = np.linspace(155, 620, 120)
+        y_s1 = np.full_like(x_s1, y0)
+        ax.plot(x_s1, y_s1, color=s1_color, linewidth=s1_lw, alpha=s1_alpha, solid_capstyle="round", zorder=4)
+
+        if is_passing:
+            # Stage 2: Smooth sigmoid convergence through the central triage aperture (620 -> 900 -> 1180)
+            y_mid = y_pass_targets[idx]
+            x_s2a = np.linspace(620, gate_x, 120)
+            t_a = (x_s2a - 620) / (gate_x - 620)
+            s_a = 3 * t_a**2 - 2 * t_a**3
+            y_s2a = y0 + (y_mid - y0) * s_a
+            ax.plot(x_s2a, y_s2a, color=teal, linewidth=4.4, solid_capstyle="round", zorder=5)
+
+            # Node inside the aperture
+            ax.scatter([gate_x], [y_mid], s=85, facecolor=gold, edgecolor=deep_teal, linewidth=2.2, zorder=7)
+
+            # Stage 2 exit to Stage 3 divider (900 -> 1180)
+            y_end = y_stage3_ends[idx]
+            x_s2b = np.linspace(gate_x, 1180, 120)
+            t_b = (x_s2b - gate_x) / (1180 - gate_x)
+            s_b = 3 * t_b**2 - 2 * t_b**3
+            y_s2b = y_mid + (y_end - y_mid) * s_b
+            ax.plot(x_s2b, y_s2b, color=teal, linewidth=4.4, solid_capstyle="round", zorder=5)
+
+            # Stage 3: Adjudicated conviction trajectories (1180 -> 1635) with terminal arrows/nodes
+            x_s3 = np.linspace(1180, 1625, 100)
+            y_s3 = np.full_like(x_s3, y_end)
+            ax.plot(x_s3, y_s3, color=deep_teal, linewidth=4.6, solid_capstyle="round", zorder=5)
+            ax.scatter([1180], [y_end], s=70, facecolor=teal, edgecolor=deep_teal, linewidth=2.0, zorder=7)
+            ax.scatter([1625], [y_end], s=130, facecolor=teal, edgecolor=deep_teal, linewidth=2.6, zorder=7)
+            ax.scatter([1625], [y_end], s=32, facecolor=cream, edgecolor="none", zorder=8)
+        else:
+            # Filtered/dropped cases in Stage 2: curve slightly toward the barrier and terminate at coral stop-bars
+            # Vary stop x-coordinate between 740 and 845 so the triage drop-off reads as a graded filter
+            dist_from_center = abs(idx - 7.5)
+            stop_x = 848 - 14 * dist_from_center
+            y_target = y0 + (506 - y0) * 0.16
+            x_s2_drop = np.linspace(620, stop_x, 90)
+            t_d = (x_s2_drop - 620) / (stop_x - 620)
+            s_d = 3 * t_d**2 - 2 * t_d**3
+            y_s2_drop = y0 + (y_target - y0) * s_d
+            ax.plot(x_s2_drop, y_s2_drop, color=coral, linewidth=2.4, linestyle=(0, (5, 3)), alpha=0.85, zorder=4)
+            # Terminal vertical coral tick bar showing case closed without indictment
+            ax.plot([stop_x, stop_x], [y_target - 9, y_target + 9], color=coral, linewidth=3.0, solid_capstyle="round", zorder=6)
+
+            # Faint ghosted continuation in Stage 3 showing the missing counterfactual volume
+            ax.plot([1215, 1620], [y0, y0], color="#D6CBC3", linewidth=1.3, linestyle=(0, (3, 5)), alpha=0.65, zorder=2)
+
+    # Decorative geometric balance markers at top of each stage column (no text)
+    # Stage 1: wide multi-bar motif
+    for i, bx in enumerate(range(310, 420, 26)):
+        ax.add_patch(plt.Rectangle((bx, 888), 16, 16, facecolor= deep_teal if i % 2 == 0 else teal, edgecolor="none", zorder=6))
+    # Stage 2: coral funnel diamond
+    diamond_x = [900, 916, 900, 884]
+    diamond_y = [908, 896, 884, 896]
+    ax.fill(diamond_x, diamond_y, facecolor=coral, edgecolor=deep_teal, linewidth=1.8, zorder=6)
+    # Stage 3: concentrated teal/gold conviction emblem
+    ax.scatter([1445], [896], s=160, facecolor=teal, edgecolor=deep_teal, linewidth=2.2, zorder=6)
+    ax.scatter([1445], [896], s=45, facecolor=gold, edgecolor="none", zorder=7)
+
+    # Outer thick border (#264653 at 44px inset) and inner thin border (#49636D at 58px inset)
+    ax.add_patch(
+        plt.Rectangle(
+            (44, 44), 1800 - 88, 1012 - 88,
+            facecolor="none", edgecolor=deep_teal, linewidth=4.0, zorder=10,
+        )
+    )
+    ax.add_patch(
+        plt.Rectangle(
+            (58, 58), 1800 - 116, 1012 - 116,
+            facecolor="none", edgecolor=inner_border, linewidth=1.8, zorder=10,
+        )
+    )
+
+    png_path = OUT / "cover.png"
+    webp_path = OUT / "cover.webp"
+    fig.savefig(png_path, dpi=100, facecolor=cream)
+    plt.close(fig)
+
+    with Image.open(png_path) as im:
+        rgb = im.convert("RGB")
+        assert rgb.size == (1800, 1012), f"Expected 1800x1012, got {rgb.size}"
+        rgb.save(webp_path, format="WEBP", quality=86, method=6)
+        # Optimize PNG via 256-color adaptive palette so cover.png is < 100 KB for fast OG scraping
+        pal = rgb.quantize(colors=256, method=Image.Quantize.MEDIANCUT)
+        pal.save(png_path, format="PNG", optimize=True)
+
+    webp_kb = webp_path.stat().st_size / 1024.0
+    png_kb = png_path.stat().st_size / 1024.0
+    assert webp_kb < 200, f"cover.webp {webp_kb:.1f} KB exceeds 200 KB cap"
+    for dest in DESTS:
+        dest.mkdir(parents=True, exist_ok=True)
+        for ext in (".png", ".webp"):
+            shutil.copyfile(OUT / f"cover{ext}", dest / f"cover{ext}")
+    print(f"[PASS] cover: 1800x1012, PNG={png_kb:.1f} KB, WebP={webp_kb:.1f} KB")
+
 
 
 def make_figure2_variance_decomposition() -> None:
@@ -250,6 +451,7 @@ def make_figure2_variance_decomposition() -> None:
 
 
 if __name__ == "__main__":
+    make_cover_art()
     make_figure0_conceptual_map()
     make_figure1_twfe_forest()
     make_figure2_variance_decomposition()
